@@ -1,11 +1,22 @@
-import * as vscode from 'vscode';
+import * as sudo from '@vscode/sudo-prompt';
 
+/**
+ * Executa um comando com privilégios de administrador/sudo.
+ * Necessário para modificar arquivos internos do VS Code.
+ */
 async function sudoExec(command: string, options: { name: string }): Promise<string> {
-    // In a real scenario, this would use a library like 'sudo-prompt'
-    // or a similar mechanism to elevate privileges.
-    // For now, we'll just log and throw an error to simulate failure if privileges are needed.
-    vscode.window.showErrorMessage(`Sudo/Admin privileges required to execute: ${command}`);
-    throw new Error('Sudo/Admin execution not implemented.');
+  return new Promise((resolve, reject) => {
+    sudo.exec(command, options, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      if (stderr) {
+        console.error(`Sudo stderr: ${stderr}`);
+      }
+      resolve(stdout ? stdout.toString() : '');
+    });
+  });
 }
 
 export { sudoExec };
