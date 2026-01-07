@@ -102,7 +102,7 @@ var require_path = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.convertPosixPathToPattern = exports2.convertWindowsPathToPattern = exports2.convertPathToPattern = exports2.escapePosixPath = exports2.escapeWindowsPath = exports2.escape = exports2.removeLeadingDotSegment = exports2.makeAbsolute = exports2.unixify = void 0;
     var os = require("os");
-    var path4 = require("path");
+    var path5 = require("path");
     var IS_WINDOWS_PLATFORM = os.platform() === "win32";
     var LEADING_DOT_SEGMENT_CHARACTERS_COUNT = 2;
     var POSIX_UNESCAPED_GLOB_SYMBOLS_RE = /(\\?)([()*?[\]{|}]|^!|[!+@](?=\()|\\(?![!()*+?@[\]{|}]))/g;
@@ -114,7 +114,7 @@ var require_path = __commonJS({
     }
     exports2.unixify = unixify;
     function makeAbsolute(cwd, filepath) {
-      return path4.resolve(cwd, filepath);
+      return path5.resolve(cwd, filepath);
     }
     exports2.makeAbsolute = makeAbsolute;
     function removeLeadingDotSegment(entry) {
@@ -1411,7 +1411,7 @@ var require_braces = __commonJS({
 var require_constants2 = __commonJS({
   "node_modules/picomatch/lib/constants.js"(exports2, module2) {
     "use strict";
-    var path4 = require("path");
+    var path5 = require("path");
     var WIN_SLASH = "\\\\/";
     var WIN_NO_SLASH = `[^${WIN_SLASH}]`;
     var DOT_LITERAL = "\\.";
@@ -1581,7 +1581,7 @@ var require_constants2 = __commonJS({
       /* | */
       CHAR_ZERO_WIDTH_NOBREAK_SPACE: 65279,
       /* \uFEFF */
-      SEP: path4.sep,
+      SEP: path5.sep,
       /**
        * Create EXTGLOB_CHARS
        */
@@ -1608,7 +1608,7 @@ var require_constants2 = __commonJS({
 var require_utils2 = __commonJS({
   "node_modules/picomatch/lib/utils.js"(exports2) {
     "use strict";
-    var path4 = require("path");
+    var path5 = require("path");
     var win32 = process.platform === "win32";
     var {
       REGEX_BACKSLASH,
@@ -1637,7 +1637,7 @@ var require_utils2 = __commonJS({
       if (options && typeof options.windows === "boolean") {
         return options.windows;
       }
-      return win32 === true || path4.sep === "\\";
+      return win32 === true || path5.sep === "\\";
     };
     exports2.escapeLast = (input, char2, lastIdx) => {
       const idx = input.lastIndexOf(char2, lastIdx);
@@ -2772,7 +2772,7 @@ var require_parse2 = __commonJS({
 var require_picomatch = __commonJS({
   "node_modules/picomatch/lib/picomatch.js"(exports2, module2) {
     "use strict";
-    var path4 = require("path");
+    var path5 = require("path");
     var scan = require_scan();
     var parse2 = require_parse2();
     var utils = require_utils2();
@@ -2857,7 +2857,7 @@ var require_picomatch = __commonJS({
     };
     picomatch.matchBase = (input, glob, options, posix = utils.isWindows(options)) => {
       const regex = glob instanceof RegExp ? glob : picomatch.makeRe(glob, options);
-      return regex.test(path4.basename(input));
+      return regex.test(path5.basename(input));
     };
     picomatch.isMatch = (str, patterns, options) => picomatch(patterns, options)(str);
     picomatch.parse = (pattern, options) => {
@@ -3084,7 +3084,7 @@ var require_pattern = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isAbsolute = exports2.partitionAbsoluteAndRelative = exports2.removeDuplicateSlashes = exports2.matchAny = exports2.convertPatternsToRe = exports2.makeRe = exports2.getPatternParts = exports2.expandBraceExpansion = exports2.expandPatternsWithBraceExpansion = exports2.isAffectDepthOfReadingPattern = exports2.endsWithSlashGlobStar = exports2.hasGlobStar = exports2.getBaseDirectory = exports2.isPatternRelatedToParentDirectory = exports2.getPatternsOutsideCurrentDirectory = exports2.getPatternsInsideCurrentDirectory = exports2.getPositivePatterns = exports2.getNegativePatterns = exports2.isPositivePattern = exports2.isNegativePattern = exports2.convertToNegativePattern = exports2.convertToPositivePattern = exports2.isDynamicPattern = exports2.isStaticPattern = void 0;
-    var path4 = require("path");
+    var path5 = require("path");
     var globParent = require_glob_parent();
     var micromatch = require_micromatch();
     var GLOBSTAR = "**";
@@ -3179,7 +3179,7 @@ var require_pattern = __commonJS({
     }
     exports2.endsWithSlashGlobStar = endsWithSlashGlobStar;
     function isAffectDepthOfReadingPattern(pattern) {
-      const basename = path4.basename(pattern);
+      const basename = path5.basename(pattern);
       return endsWithSlashGlobStar(pattern) || isStaticPattern(basename);
     }
     exports2.isAffectDepthOfReadingPattern = isAffectDepthOfReadingPattern;
@@ -3227,7 +3227,7 @@ var require_pattern = __commonJS({
       const absolute = [];
       const relative = [];
       for (const pattern of patterns) {
-        if (isAbsolute(pattern)) {
+        if (isAbsolute2(pattern)) {
           absolute.push(pattern);
         } else {
           relative.push(pattern);
@@ -3236,10 +3236,10 @@ var require_pattern = __commonJS({
       return [absolute, relative];
     }
     exports2.partitionAbsoluteAndRelative = partitionAbsoluteAndRelative;
-    function isAbsolute(pattern) {
-      return path4.isAbsolute(pattern);
+    function isAbsolute2(pattern) {
+      return path5.isAbsolute(pattern);
     }
-    exports2.isAbsolute = isAbsolute;
+    exports2.isAbsolute = isAbsolute2;
   }
 });
 
@@ -3414,8 +3414,8 @@ var require_utils3 = __commonJS({
     exports2.errno = errno;
     var fs4 = require_fs();
     exports2.fs = fs4;
-    var path4 = require_path();
-    exports2.path = path4;
+    var path5 = require_path();
+    exports2.path = path5;
     var pattern = require_pattern();
     exports2.pattern = pattern;
     var stream = require_stream();
@@ -3527,8 +3527,8 @@ var require_async = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.read = void 0;
-    function read(path4, settings, callback) {
-      settings.fs.lstat(path4, (lstatError, lstat) => {
+    function read(path5, settings, callback) {
+      settings.fs.lstat(path5, (lstatError, lstat) => {
         if (lstatError !== null) {
           callFailureCallback(callback, lstatError);
           return;
@@ -3537,7 +3537,7 @@ var require_async = __commonJS({
           callSuccessCallback(callback, lstat);
           return;
         }
-        settings.fs.stat(path4, (statError, stat) => {
+        settings.fs.stat(path5, (statError, stat) => {
           if (statError !== null) {
             if (settings.throwErrorOnBrokenSymbolicLink) {
               callFailureCallback(callback, statError);
@@ -3569,13 +3569,13 @@ var require_sync = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.read = void 0;
-    function read(path4, settings) {
-      const lstat = settings.fs.lstatSync(path4);
+    function read(path5, settings) {
+      const lstat = settings.fs.lstatSync(path5);
       if (!lstat.isSymbolicLink() || !settings.followSymbolicLink) {
         return lstat;
       }
       try {
-        const stat = settings.fs.statSync(path4);
+        const stat = settings.fs.statSync(path5);
         if (settings.markSymbolicLink) {
           stat.isSymbolicLink = () => true;
         }
@@ -3646,17 +3646,17 @@ var require_out = __commonJS({
     var sync = require_sync();
     var settings_1 = require_settings();
     exports2.Settings = settings_1.default;
-    function stat(path4, optionsOrSettingsOrCallback, callback) {
+    function stat(path5, optionsOrSettingsOrCallback, callback) {
       if (typeof optionsOrSettingsOrCallback === "function") {
-        async.read(path4, getSettings(), optionsOrSettingsOrCallback);
+        async.read(path5, getSettings(), optionsOrSettingsOrCallback);
         return;
       }
-      async.read(path4, getSettings(optionsOrSettingsOrCallback), callback);
+      async.read(path5, getSettings(optionsOrSettingsOrCallback), callback);
     }
     exports2.stat = stat;
-    function statSync(path4, optionsOrSettings) {
+    function statSync(path5, optionsOrSettings) {
       const settings = getSettings(optionsOrSettings);
-      return sync.read(path4, settings);
+      return sync.read(path5, settings);
     }
     exports2.statSync = statSync;
     function getSettings(settingsOrOptions = {}) {
@@ -3872,16 +3872,16 @@ var require_async2 = __commonJS({
           return;
         }
         const tasks = names.map((name) => {
-          const path4 = common.joinPathSegments(directory, name, settings.pathSegmentSeparator);
+          const path5 = common.joinPathSegments(directory, name, settings.pathSegmentSeparator);
           return (done) => {
-            fsStat.stat(path4, settings.fsStatSettings, (error, stats) => {
+            fsStat.stat(path5, settings.fsStatSettings, (error, stats) => {
               if (error !== null) {
                 done(error);
                 return;
               }
               const entry = {
                 name,
-                path: path4,
+                path: path5,
                 dirent: utils.fs.createDirentFromStats(name, stats)
               };
               if (settings.stats) {
@@ -3999,7 +3999,7 @@ var require_settings2 = __commonJS({
   "node_modules/@nodelib/fs.scandir/out/settings.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path4 = require("path");
+    var path5 = require("path");
     var fsStat = require_out();
     var fs4 = require_fs4();
     var Settings = class {
@@ -4007,7 +4007,7 @@ var require_settings2 = __commonJS({
         this._options = _options;
         this.followSymbolicLinks = this._getValue(this._options.followSymbolicLinks, false);
         this.fs = fs4.createFileSystemAdapter(this._options.fs);
-        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path4.sep);
+        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path5.sep);
         this.stats = this._getValue(this._options.stats, false);
         this.throwErrorOnBrokenSymbolicLink = this._getValue(this._options.throwErrorOnBrokenSymbolicLink, true);
         this.fsStatSettings = new fsStat.Settings({
@@ -4034,17 +4034,17 @@ var require_out2 = __commonJS({
     var sync = require_sync2();
     var settings_1 = require_settings2();
     exports2.Settings = settings_1.default;
-    function scandir(path4, optionsOrSettingsOrCallback, callback) {
+    function scandir(path5, optionsOrSettingsOrCallback, callback) {
       if (typeof optionsOrSettingsOrCallback === "function") {
-        async.read(path4, getSettings(), optionsOrSettingsOrCallback);
+        async.read(path5, getSettings(), optionsOrSettingsOrCallback);
         return;
       }
-      async.read(path4, getSettings(optionsOrSettingsOrCallback), callback);
+      async.read(path5, getSettings(optionsOrSettingsOrCallback), callback);
     }
     exports2.scandir = scandir;
-    function scandirSync(path4, optionsOrSettings) {
+    function scandirSync(path5, optionsOrSettings) {
       const settings = getSettings(optionsOrSettings);
-      return sync.read(path4, settings);
+      return sync.read(path5, settings);
     }
     exports2.scandirSync = scandirSync;
     function getSettings(settingsOrOptions = {}) {
@@ -4691,7 +4691,7 @@ var require_settings3 = __commonJS({
   "node_modules/@nodelib/fs.walk/out/settings.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path4 = require("path");
+    var path5 = require("path");
     var fsScandir = require_out2();
     var Settings = class {
       constructor(_options = {}) {
@@ -4701,7 +4701,7 @@ var require_settings3 = __commonJS({
         this.deepFilter = this._getValue(this._options.deepFilter, null);
         this.entryFilter = this._getValue(this._options.entryFilter, null);
         this.errorFilter = this._getValue(this._options.errorFilter, null);
-        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path4.sep);
+        this.pathSegmentSeparator = this._getValue(this._options.pathSegmentSeparator, path5.sep);
         this.fsScandirSettings = new fsScandir.Settings({
           followSymbolicLinks: this._options.followSymbolicLinks,
           fs: this._options.fs,
@@ -4763,7 +4763,7 @@ var require_reader2 = __commonJS({
   "node_modules/fast-glob/out/readers/reader.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path4 = require("path");
+    var path5 = require("path");
     var fsStat = require_out();
     var utils = require_utils3();
     var Reader = class {
@@ -4776,7 +4776,7 @@ var require_reader2 = __commonJS({
         });
       }
       _getFullEntryPath(filepath) {
-        return path4.resolve(this._settings.cwd, filepath);
+        return path5.resolve(this._settings.cwd, filepath);
       }
       _makeEntry(stats, pattern) {
         const entry = {
@@ -5192,7 +5192,7 @@ var require_provider = __commonJS({
   "node_modules/fast-glob/out/providers/provider.js"(exports2) {
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
-    var path4 = require("path");
+    var path5 = require("path");
     var deep_1 = require_deep();
     var entry_1 = require_entry();
     var error_1 = require_error();
@@ -5206,7 +5206,7 @@ var require_provider = __commonJS({
         this.entryTransformer = new entry_2.default(this._settings);
       }
       _getRootDirectory(task) {
-        return path4.resolve(this._settings.cwd, task.base);
+        return path5.resolve(this._settings.cwd, task.base);
       }
       _getReaderOptions(task) {
         const basePath = task.base === "." ? "" : task.base;
@@ -5549,7 +5549,7 @@ __export(extension_exports, {
   deactivate: () => deactivate
 });
 module.exports = __toCommonJS(extension_exports);
-var vscode7 = __toESM(require("vscode"));
+var vscode8 = __toESM(require("vscode"));
 
 // src/background/Background.ts
 var vscode6 = __toESM(require("vscode"));
@@ -6231,10 +6231,10 @@ var ChecksumsPatchGenerator = class extends WithoutImagesPatchGenerator {
   getStyle() {
     return this.Translations.map(
       (trans) => css`
-                .notification-toast-container:has([aria-label*='${trans}']) {
-                    display: none;
-                }
-            `
+        .notification-toast-container:has([aria-label*='${trans}']) {
+          display: none;
+        }
+      `
     ).join(" ");
   }
 };
@@ -6242,13 +6242,13 @@ var ThemePatchGenerator = class _ThemePatchGenerator extends WithoutImagesPatchG
   static cssMixBlendMode = "--background-css-mix-blend-mode";
   getStyle() {
     return css`
-            body {
-                ${_ThemePatchGenerator.cssMixBlendMode}: unset;
-            }
-            body:has(> .monaco-workbench.vs-dark) {
-                ${_ThemePatchGenerator.cssMixBlendMode}: screen;
-            }
-        `;
+      body {
+        ${_ThemePatchGenerator.cssMixBlendMode}: unset;
+      }
+      body:has(> .monaco-workbench.vs-dark) {
+        ${_ThemePatchGenerator.cssMixBlendMode}: screen;
+      }
+    `;
   }
 };
 var EditorPatchGenerator = class extends AbsPatchGenerator {
@@ -6291,36 +6291,36 @@ var EditorPatchGenerator = class extends AbsPatchGenerator {
     const { images, useFront } = this.curConfig;
     const frontContent = useFront ? "after" : "before";
     return this.compileCSS(css`
-            /* minimap */
-            .minimap {
-                opacity: 0.8;
-            }
+      /* minimap */
+      .minimap {
+        opacity: 0.8;
+      }
 
-            [id='workbench.parts.editor'] .split-view-view {
-                .editor-container .overflow-guard > .monaco-scrollable-element > .monaco-editor-background {
-                    background: none;
-                }
-                ${(images || []).map((_img, index) => {
+      [id='workbench.parts.editor'] .split-view-view {
+        .editor-container .overflow-guard > .monaco-scrollable-element > .monaco-editor-background {
+          background: none;
+        }
+        ${(images || []).map((_img, index) => {
       const nthChild = `${(images || []).length}n + ${index + 1}`;
       return css`
-                        &:nth-child(${nthChild}) .editor-instance > .monaco-editor > .overflow-guard > .monaco-scrollable-element::${frontContent} {
-                            content: '';
-                            width: 100%;
-                            height: 100%;
-                            position: absolute;
-                            z-index: ${useFront ? 99 : "initial"};
-                            pointer-events: ${useFront ? "none" : "initial"};
-                            transition: 0.3s;
-                            background-repeat: no-repeat;
-                            mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-                            /* placeholder, used for dynamic css replacement */
-                            ${this.cssplaceholder + index % (images || []).length}: #000;
-                            ${this.cssplaceholder + "-end"}: #000;
-                        }
-                    `;
-    })}
+            &:nth-child(${nthChild}) .editor-instance > .monaco-editor > .overflow-guard > .monaco-scrollable-element::${frontContent} {
+              content: '';
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              z-index: ${useFront ? 99 : "initial"};
+              pointer-events: ${useFront ? "none" : "initial"};
+              transition: 0.3s;
+              background-repeat: no-repeat;
+              mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
+              /* placeholder, used for dynamic css replacement */
+              ${this.cssplaceholder + index % (images || []).length}: #000;
+              ${this.cssplaceholder + "-end"}: #000;
             }
-        `);
+          `;
+    })}
+      }
+    `);
   }
   getScript() {
     const { interval, random } = this.curConfig;
@@ -6389,22 +6389,23 @@ var FullscreenPatchGenerator = class extends AbsPatchGenerator {
   getStyle() {
     const { size, position: position2, opacity } = this.curConfig;
     return css`
-            body::after {
-                content: '';
-                display: block;
-                position: absolute;
-                z-index: 1000;
-                inset: 0;
-                pointer-events: none;
-                background-size: ${size};
-                background-repeat: no-repeat;
-                background-position: ${position2};
-                opacity: ${opacity};
-                transition: 1s;
-                mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-                background-image: var(${this.cssvariable});
-            }
-        `;
+      body::after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 99; /* REDUZIDO: Para não cobrir notificações e diálogos críticos */
+        inset: 0;
+        pointer-events: none;
+        background-size: ${size};
+        background-repeat: no-repeat;
+        background-position: ${position2};
+        opacity: ${opacity};
+        transition: 1s;
+        /* Melhor controle do blend mode */
+        mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode}, normal);
+        background-image: var(${this.cssvariable});
+      }
+    `;
   }
   getScript() {
     const { images, random, interval } = this.curConfig;
@@ -6445,24 +6446,24 @@ var SidebarPatchGenerator = class extends FullscreenPatchGenerator {
   getStyle() {
     const { size, position: position2, opacity } = this.curConfig;
     return css`
-            .split-view-view > .part.sidebar::after {
-                content: '';
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                z-index: 99;
-                background-position: ${position2};
-                background-repeat: no-repeat;
-                background-size: ${size};
-                pointer-events: none;
-                opacity: ${opacity};
-                transition: 1s;
-                mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-                background-image: var(${this.cssvariable});
-            }
-        `;
+      .split-view-view > .part.sidebar::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        background-position: ${position2};
+        background-repeat: no-repeat;
+        background-size: ${size};
+        pointer-events: none;
+        opacity: ${opacity};
+        transition: 1s;
+        mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
+        background-image: var(${this.cssvariable});
+      }
+    `;
   }
 };
 var AuxiliarybarPatchGenerator = class extends FullscreenPatchGenerator {
@@ -6470,23 +6471,23 @@ var AuxiliarybarPatchGenerator = class extends FullscreenPatchGenerator {
   getStyle() {
     const { size, position: position2, opacity } = this.curConfig;
     return css`
-            .split-view-view > .part.auxiliarybar::after {
-                content: '';
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                background-position: ${position2};
-                background-repeat: no-repeat;
-                background-size: ${size};
-                pointer-events: none;
-                opacity: ${opacity};
-                transition: 1s;
-                mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-                background-image: var(${this.cssvariable});
-            }
-        `;
+      .split-view-view > .part.auxiliarybar::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-position: ${position2};
+        background-repeat: no-repeat;
+        background-size: ${size};
+        pointer-events: none;
+        opacity: ${opacity};
+        transition: 1s;
+        mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
+        background-image: var(${this.cssvariable});
+      }
+    `;
   }
 };
 var PanelPatchGenerator = class extends FullscreenPatchGenerator {
@@ -6494,23 +6495,23 @@ var PanelPatchGenerator = class extends FullscreenPatchGenerator {
   getStyle() {
     const { size, position: position2, opacity } = this.curConfig;
     return css`
-            .split-view-view > .part.panel::after {
-                content: '';
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                background-position: ${position2};
-                background-repeat: no-repeat;
-                background-size: ${size};
-                pointer-events: none;
-                opacity: ${opacity};
-                transition: 1s;
-                mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-                background-image: var(${this.cssvariable});
-            }
-        `;
+      .split-view-view > .part.panel::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-position: ${position2};
+        background-repeat: no-repeat;
+        background-size: ${size};
+        pointer-events: none;
+        opacity: ${opacity};
+        transition: 1s;
+        mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
+        background-image: var(${this.cssvariable});
+      }
+    `;
   }
 };
 var PatchGenerator = class {
@@ -6522,7 +6523,11 @@ var PatchGenerator = class {
       scriptParts.push(new FullscreenPatchGenerator(options.background.fullscreen).create());
     } else {
       if (options.background?.editor) {
-        scriptParts.push(new EditorPatchGenerator(EditorPatchGenerator.mergeLegacyConfig(options, options.background.editor)).create());
+        scriptParts.push(
+          new EditorPatchGenerator(
+            EditorPatchGenerator.mergeLegacyConfig(options, options.background.editor)
+          ).create()
+        );
       }
       if (options.background?.sidebar) {
         scriptParts.push(new SidebarPatchGenerator(options.background.sidebar).create());
@@ -6642,10 +6647,10 @@ var BackgroundManager = class {
     this.disposables.push(
       vscode6.workspace.onDidChangeConfiguration(async (ex) => {
         const affectsCodeCanvas = ex.affectsConfiguration(EXTENSION_NAME);
-        if (!affectsCodeCanvas) {
-          return;
+        const affectsTheme = ex.affectsConfiguration("workbench.colorTheme");
+        if (affectsCodeCanvas || affectsTheme) {
+          this.onConfigChange();
         }
-        this.onConfigChange();
       })
     );
   }
@@ -6672,13 +6677,19 @@ var BackgroundManager = class {
     return this.jsFile.hasPatched();
   }
   async apply(area, cfg) {
-    vscode6.window.showInformationMessage(`Apply background to ${area} is not yet fully implemented.`);
+    vscode6.window.showInformationMessage(
+      `Apply background to ${area} is not yet fully implemented.`
+    );
   }
   async remove(area) {
-    vscode6.window.showInformationMessage(`Remove background from ${area} is not yet fully implemented.`);
+    vscode6.window.showInformationMessage(
+      `Remove background from ${area} is not yet fully implemented.`
+    );
   }
   async applyFullscreen(cfg) {
-    vscode6.window.showInformationMessage(`Apply fullscreen background is not yet fully implemented.`);
+    vscode6.window.showInformationMessage(
+      `Apply fullscreen background is not yet fully implemented.`
+    );
   }
   async restoreAll() {
     return this.uninstall();
@@ -6688,38 +6699,85 @@ var BackgroundManager = class {
   }
 };
 
+// src/theme-integration.ts
+var vscode7 = __toESM(require("vscode"));
+var path4 = __toESM(require("path"));
+async function detectAndApplyThemeBackground() {
+  const currentTheme = vscode7.workspace.getConfiguration("workbench").get("colorTheme");
+  if (!currentTheme) {
+    return;
+  }
+  const themes = vscode7.extensions.all.flatMap((ext) => {
+    const themeContributes = ext.packageJSON.contributes?.themes || [];
+    return themeContributes.map((t) => ({
+      ...t,
+      extensionPath: ext.extensionPath
+    }));
+  });
+  const theme = themes.find((t) => t.label === currentTheme || t.id === currentTheme);
+  if (!theme) {
+    return;
+  }
+  try {
+    const themePath = path4.isAbsolute(theme.path) ? theme.path : path4.join(theme.extensionPath, theme.path);
+    const themeUri = vscode7.Uri.file(themePath);
+    const content = await vscode7.workspace.fs.readFile(themeUri);
+    const themeJson = JSON.parse(content.toString());
+    if (themeJson.backgroundConfig) {
+      await vscode7.workspace.getConfiguration("codecanvas").update("ui.background", themeJson.backgroundConfig, vscode7.ConfigurationTarget.Global);
+      vscode7.window.showInformationMessage(`CodeCanvas: Applied background settings from theme "${currentTheme}".`);
+    }
+  } catch (e) {
+    console.error("CodeCanvas: Failed to read theme file", e);
+  }
+}
+
 // src/extension.ts
 function activate(context) {
   const backgroundManager = new BackgroundManager(context);
   context.subscriptions.push(backgroundManager);
   context.subscriptions.push(
-    vscode7.commands.registerCommand("codecanvas.install", async () => {
-      await vscode7.workspace.getConfiguration("codecanvas").update("enabled", true, vscode7.ConfigurationTarget.Global);
-      vscode7.window.showInformationMessage("CodeCanvas: Enabling backgrounds. Please reload VS Code if prompted.");
+    vscode8.workspace.onDidChangeConfiguration((e) => {
+      if (e.affectsConfiguration("workbench.colorTheme")) {
+        detectAndApplyThemeBackground();
+      }
+    })
+  );
+  detectAndApplyThemeBackground();
+  context.subscriptions.push(
+    vscode8.commands.registerCommand("codecanvas.install", async () => {
+      await vscode8.workspace.getConfiguration("codecanvas").update("enabled", true, vscode8.ConfigurationTarget.Global);
+      vscode8.window.showInformationMessage(
+        "CodeCanvas: Ativando backgrounds. Por favor, recarregue o VS Code."
+      );
     })
   );
   context.subscriptions.push(
-    vscode7.commands.registerCommand("codecanvas.uninstallPatch", async () => {
+    vscode8.commands.registerCommand("codecanvas.uninstallPatch", async () => {
       const success = await backgroundManager.uninstall();
       if (success) {
-        vscode7.window.showInformationMessage("CodeCanvas: Patch uninstalled successfully. Please reload VS Code.", "Reload").then((selection) => {
-          if (selection === "Reload") {
-            vscode7.commands.executeCommand("workbench.action.reloadWindow");
+        vscode8.window.showInformationMessage(
+          "CodeCanvas: Patch removido. Por favor, recarregue o VS Code.",
+          "Recarregar"
+        ).then((selection) => {
+          if (selection === "Recarregar") {
+            vscode8.commands.executeCommand("workbench.action.reloadWindow");
           }
         });
       }
     })
   );
   context.subscriptions.push(
-    vscode7.commands.registerCommand("codecanvas.disable", async () => {
-      await vscode7.workspace.getConfiguration("codecanvas").update("enabled", false, vscode7.ConfigurationTarget.Global);
-      vscode7.window.showInformationMessage("CodeCanvas: Backgrounds disabled. Please reload VS Code if prompted.");
+    vscode8.commands.registerCommand("codecanvas.disable", async () => {
+      await vscode8.workspace.getConfiguration("codecanvas").update("enabled", false, vscode8.ConfigurationTarget.Global);
     })
   );
   context.subscriptions.push(
-    vscode7.commands.registerCommand("codecanvas.info", async () => {
+    vscode8.commands.registerCommand("codecanvas.info", async () => {
       const installed = await backgroundManager.hasInstalled();
-      vscode7.window.showInformationMessage(`CodeCanvas: Patch ${installed ? "is" : "is NOT"} installed.`);
+      vscode8.window.showInformationMessage(
+        `CodeCanvas: Patch ${installed ? "est\xE1" : "N\xC3O est\xE1"} instalado.`
+      );
     })
   );
 }

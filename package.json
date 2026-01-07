@@ -54,7 +54,13 @@
         }
       }
     },
-    "themes": []
+    "themes": [
+      {
+        "label": "dark-purple",
+        "uiTheme": "vs-dark",
+        "path": "./src/themes/defaults/themes/dark.purple.default-color-theme.json"
+      }
+    ]
   },
   "scripts": {
     "update:contributions": "node scripts/update-contributions.mjs",

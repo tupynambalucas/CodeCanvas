@@ -27,7 +27,6 @@ function getFiles(dir, extension) {
 function updateContributions() {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-  // Adjusted to specifically look in defaults/themes and custom folders.
   const defaultThemesPath = path.join(themesPath, 'defaults', 'themes');
   const customThemesPath = path.join(themesPath, 'custom');
 
@@ -35,32 +34,32 @@ function updateContributions() {
     ...getFiles(defaultThemesPath, 'theme.json'),
     ...getFiles(customThemesPath, 'theme.json'),
   ];
-  console.log(`Found ${themeFiles.length} theme files.`);
+
+  console.log(`Encontrados ${themeFiles.length} arquivos de tema.`);
   const contributions = [];
 
   themeFiles.forEach((file) => {
     const theme = JSON.parse(fs.readFileSync(file, 'utf8'));
 
-    // Only add themes that have backgroundConfig
-    if (theme.backgroundConfig) {
-      const relativePath = path.relative(rootPath, file).replace(/\\/g, '/');
+    // REMOVIDO: A verificação if (theme.backgroundConfig) foi removida
+    // para que TODOS os temas sejam adicionados ao package.json
+    const relativePath = path.relative(rootPath, file).replace(/\\/g, '/');
 
-      const contribution = {
-        id: theme.id,
-        label: theme.name,
-        uiTheme: theme.type === 'dark' ? 'vs-dark' : 'vs',
-        path: './' + relativePath,
-      };
-      console.log(`Adding theme: ${theme.name} with backgroundConfig.`);
-      console.log(contribution);
-      contributions.push(contribution);
-    }
+    const contribution = {
+      id: theme.id,
+      label: theme.name,
+      uiTheme: theme.type === 'dark' ? 'vs-dark' : 'vs',
+      path: './' + relativePath,
+    };
+
+    console.log(`Adicionando tema: ${theme.name}`);
+    contributions.push(contribution);
   });
 
   packageJson.contributes.themes = contributions;
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8');
-  console.log(`Updated package.json with ${contributions.length} themes with backgroundConfig.`);
+  console.log(`package.json atualizado com ${contributions.length} temas.`);
 }
 
 updateContributions();
