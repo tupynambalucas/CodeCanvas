@@ -1,0 +1,52 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.exclude": {
+    "out": false, // set this to true to hide the "out" folder with the compiled JS files
+    "dist": false // set this to true to hide the "dist" folder with the compiled JS files
+  },
+  "search.exclude": {
+    "out": true, // set this to false to include "out" folder in search results
+    "dist": true // set this to false to include "dist" folder in search results
+  },
+  // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
+  // ==================== ESLint ====================
+  "eslint.debug": false,
+  "eslint.trace.server": "off",
+  "eslint.useFlatConfig": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.options": {
+    "cache": true,
+    "cacheLocation": ".eslintcache"
+  },
+  "json.schemaDownload.enable": true,
+  // ==================== Editor ====================
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "[json]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.suggest.insertMode": "replace"
+  },
+  "[typescript]": {
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  }
+}
