@@ -1,8 +1,8 @@
 import * as sudo from '@vscode/sudo-prompt';
 
 /**
- * Executa um comando com privilégios de administrador/sudo.
- * Necessário para modificar arquivos internos do VS Code.
+ * Executa comandos com privilégios de administrador.
+ * Necessário para editar o JS interno do VS Code.
  */
 async function sudoExec(command: string, options: { name: string }): Promise<string> {
   return new Promise((resolve, reject) => {
