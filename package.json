@@ -14,13 +14,50 @@
     "ui",
     "workspace"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "CodeCanvas.helloWorld",
-        "title": "Hello World"
+        "command": "codecanvas.install",
+        "title": "CodeCanvas: Install / Enable"
+      },
+      {
+        "command": "codecanvas.uninstallPatch",
+        "title": "CodeCanvas: Uninstall Patch"
+      },
+      {
+        "command": "codecanvas.disable",
+        "title": "CodeCanvas: Disable"
+      },
+      {
+        "command": "codecanvas.info",
+        "title": "CodeCanvas: Info"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "CodeCanvas",
+      "properties": {
+        "codecanvas.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/Disable CodeCanvas backgrounds."
+        },
+        "codecanvas.ui": {
+          "type": "object",
+          "default": {},
+          "description": "Unified UI configuration for CodeCanvas."
+        }
+      }
+    },
+    "themes": [
+      {
+        "label": "TDev Dark Purple",
+        "uiTheme": "vs-dark",
+        "path": "./src/themes/defaults/themes/default.dark.purple-color-theme.json"
       }
     ]
   },
@@ -38,16 +75,31 @@
     "lint": "eslint src",
     "test": "vscode-test"
   },
+  "dependencies": {
+    "@vscode/sudo-prompt": "^9.3.1",
+    "fast-glob": "^3.3.3",
+    "stylis": "^4.3.6",
+    "uglify-js": "^3.19.3"
+  },
   "devDependencies": {
-    "@types/vscode": "^1.107.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.48.1",
-    "eslint": "^9.39.1",
-    "esbuild": "^0.27.1",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.9.3",
+    "@types/vscode": "^1.107.0",
     "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "@vscode/test-electron": "^2.5.2",
+    "@types/stylis": "^4.2.7",
+    "@types/uglify-js": "^3.17.5",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.50.0",
+    "@typescript-eslint/parser": "^8.50.0",
+    "@vscode/vsce": "^3.7.1",
+    "esbuild": "^0.27.1",
+    "eslint": "^9.39.1",
+    "fast-glob": "^3.3.3",
+    "npm-run-all": "^4.1.5",
+    "stylis": "^4.3.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "uglify-js": "^3.19.3"
   }
 }

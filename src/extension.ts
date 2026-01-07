@@ -1,26 +1,61 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { BackgroundManager } from './background/Background';
+// Removed: import { detectAndApplyThemeBackground } from './theme-integration';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	const backgroundManager = new BackgroundManager(context);
+	context.subscriptions.push(backgroundManager);
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "CodeCanvas" is now active!');
+	// Theme integration listener is now handled within BackgroundManager's onConfigChange
+	// and will trigger background updates based on theme configuration.
+	// Removed:
+	// context.subscriptions.push(
+	// 	vscode.workspace.onDidChangeConfiguration(e => {
+	// 		if (e.affectsConfiguration('workbench.colorTheme')) {
+	// 			detectAndApplyThemeBackground();
+	// 		}
+	// 	})
+	// );
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('CodeCanvas.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from tupynambalucasdev/codecanvas!');
-	});
+	// Initial check is now handled within BackgroundManager's constructor
+	// Removed: detectAndApplyThemeBackground();
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codecanvas.install', async () => {
+			// This command will now just set the 'enabled' flag, which triggers onConfigChange
+			await vscode.workspace.getConfiguration('codecanvas').update('enabled', true, vscode.ConfigurationTarget.Global);
+			vscode.window.showInformationMessage('CodeCanvas: Enabling backgrounds. Please reload VS Code if prompted.');
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codecanvas.uninstallPatch', async () => {
+			// This command now just calls uninstall directly
+			const success = await backgroundManager.uninstall();
+			if (success) {
+				vscode.window.showInformationMessage('CodeCanvas: Patch uninstalled successfully. Please reload VS Code.', 'Reload')
+					.then(selection => {
+						if (selection === 'Reload') {
+							vscode.commands.executeCommand('workbench.action.reloadWindow');
+						}
+					});
+			}
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codecanvas.disable', async () => {
+			await vscode.workspace.getConfiguration('codecanvas').update('enabled', false, vscode.ConfigurationTarget.Global);
+			vscode.window.showInformationMessage('CodeCanvas: Backgrounds disabled. Please reload VS Code if prompted.');
+		})
+	);
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('codecanvas.info', async () => {
+			const installed = await backgroundManager.hasInstalled();
+			vscode.window.showInformationMessage(`CodeCanvas: Patch ${installed ? 'is' : 'is NOT'} installed.`);
+		})
+	);
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}

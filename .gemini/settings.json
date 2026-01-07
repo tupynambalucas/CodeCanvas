@@ -50,7 +50,7 @@
       "enableInteractiveShell": true,
       "showColor": false
     },
-    "autoAccept": false,
+    "autoAccept": true,
     "useRipgrep": true,
     "enableToolOutputTruncation": true,
     "truncateToolOutputThreshold": 10000,
@@ -279,7 +279,7 @@
     }
   },
   "context": {
-    "fileName": ["CONTEXT.md"],
+    "fileName": ["CONTEXT.md", "CONFIG.md", "VSCODE_API.md", "README.md"],
     "discoveryMaxDirs": 200,
     "loadMemoryFromIncludeDirectories": true,
     "fileFiltering": {

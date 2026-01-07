@@ -18,7 +18,7 @@
       "type": "npm",
       "script": "watch:esbuild",
       "group": "build",
-      "problemMatcher": "$esbuild-watch",
+      "problemMatcher": "$tsc-watch",
       "isBackground": true,
       "label": "npm: watch:esbuild",
       "presentation": {
@@ -57,17 +57,14 @@
     {
       "label": "🤖 Gemini CLI",
       "type": "shell",
-      "command": "Start-Process",
-      "args": [
-        "powershell",
-        "-WorkingDirectory",
-        "'${workspaceFolder}'",
-        "-ArgumentList",
-        "'-Command $Host.UI.RawUI.WindowTitle = \"Gemini Agent\"; gemini --include-directories .'"
-      ],
+      "command": "gemini",
+      "args": ["--include-directories", "."],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [],
       "presentation": {
-        "reveal": "never",
+        "reveal": "always",
         "panel": "shared"
       }
     }
