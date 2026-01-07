@@ -3,6 +3,17 @@
   "name": "CCanvas Dark Purple",
   "id": "tupynambalucasdev.codecanvas-dark-purple",
   "type": "dark",
+  "backgroundConfig": {
+    "fullscreen": false,
+    "editor": {
+      "images": ["../../../assets/yoruichi.png"],
+      "style": {
+        "background-position": "auto auto",
+        "background-size": "cover",
+        "opacity": 0.4
+      }
+    }
+  },
   "include": "../templates/dark.template-color-theme.json",
   "colors": {
     "titleBar.activeForeground": "#fde2ff",
