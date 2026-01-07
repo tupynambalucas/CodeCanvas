@@ -1,6 +1,7 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "dark-purple",
+  "id": "dark-purple",
+  "name": "DarkPurple",
   "type": "dark",
   "include": "../templates/dark.template-color-theme.json",
   "colors": {

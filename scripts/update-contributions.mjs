@@ -27,6 +27,10 @@ function getFiles(dir, extension) {
 function updateContributions() {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
+  // Extrai o publisher e o nome da extensão para compor o ID final
+  const publisher = packageJson.publisher; // "tupynambalucasdev"
+  const extensionName = packageJson.name; // "codecanvas"
+
   const defaultThemesPath = path.join(themesPath, 'defaults', 'themes');
   const customThemesPath = path.join(themesPath, 'custom');
 
@@ -41,18 +45,23 @@ function updateContributions() {
   themeFiles.forEach((file) => {
     const theme = JSON.parse(fs.readFileSync(file, 'utf8'));
 
-    // REMOVIDO: A verificação if (theme.backgroundConfig) foi removida
-    // para que TODOS os temas sejam adicionados ao package.json
     const relativePath = path.relative(rootPath, file).replace(/\\/g, '/');
 
+    // Obtém o ID do arquivo (ex: "dark-purple") ou gera um a partir do nome se não existir
+    const themeSlug = theme.id || theme.name.toLowerCase().replace(/\s+/g, '-');
+
+    // NOVO: Constrói o ID no formato "publisher.extensao-id"
+    // Exemplo: "tupynambalucasdev.codecanvas-dark-purple"
+    const fullThemeId = `${publisher}.${extensionName}-${themeSlug}`;
+
     const contribution = {
-      id: theme.id,
+      id: fullThemeId,
       label: theme.name,
       uiTheme: theme.type === 'dark' ? 'vs-dark' : 'vs',
       path: './' + relativePath,
     };
 
-    console.log(`Adicionando tema: ${theme.name}`);
+    console.log(`Adicionando tema: ${theme.name} com ID: ${fullThemeId}`);
     contributions.push(contribution);
   });
 

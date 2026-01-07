@@ -56,9 +56,10 @@
     },
     "themes": [
       {
-        "label": "dark-purple",
+        "id": "tupynambalucasdev.codecanvas-dark-purple",
+        "label": "DarkPurple",
         "uiTheme": "vs-dark",
-        "path": "./src/themes/defaults/themes/dark.purple.default-color-theme.json"
+        "path": "./src/themes/defaults/themes/dark.purple-color-theme.json"
       }
     ]
   },
