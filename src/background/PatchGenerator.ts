@@ -30,7 +30,7 @@ export class EditorPatchGeneratorConfig {
 
 export class FullscreenPatchGeneratorConfig {
   images = [] as string[];
-  opacity = 0.1; // Suggested range: 0.1 ~ 0.3
+  opacity = 0.1;
   size = 'cover' as 'cover' | 'contain';
   position = 'center';
   interval = 0;
@@ -40,24 +40,23 @@ export class FullscreenPatchGeneratorConfig {
 export class SidebarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 export class AuxiliarybarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 export class PanelPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
+// Nova configuração para Secondary Bar
+export class SecondarybarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 
 export type TPatchGeneratorConfig = {
   enabled: boolean;
-  fullscreen?: boolean; // Root fullscreen flag from codecanvas.ui
+  fullscreen?: boolean;
   background?: {
-    // The background configuration object
     editor?: EditorPatchGeneratorConfig;
     sidebar?: SidebarPatchGeneratorConfig;
     auxiliarybar?: AuxiliarybarPatchGeneratorConfig;
+    secondarybar?: SecondarybarPatchGeneratorConfig; // Adicionado suporte aqui
     panel?: PanelPatchGeneratorConfig;
-    fullscreen?: FullscreenPatchGeneratorConfig; // Fullscreen specific background config
+    fullscreen?: FullscreenPatchGeneratorConfig;
   };
-} & LegacyEditorPatchGeneratorConfig; // For backward compatibility
+} & LegacyEditorPatchGeneratorConfig;
 
 // --- Base Patch Generator ---
-/**
- * For triggering dev tools css in js language support
- */
 export function css(template: TemplateStringsArray, ...args: any[]) {
   return template.reduce((prev, curr, i) => {
     let arg = args[i];
@@ -71,25 +70,21 @@ export function css(template: TemplateStringsArray, ...args: any[]) {
   }, '');
 }
 
-export class AbsPatchGenerator<T extends { images?: string[] }> {
+export abstract class AbsPatchGenerator<T extends { images?: string[] }> {
   protected config: T;
-  protected imageRequired = true; // Must have images
+  protected imageRequired = true;
 
   constructor(config: T) {
     const images = (config?.images || []).filter((n) => n.length);
     this.config = {
       ...config,
       images: images.flatMap((img) => {
-        // Network images
         if (img.startsWith('http')) {
           return [img];
         }
-        // Local files with extension
         if (/\.[^\\/]+$/.test(img)) {
-          // Fixed regex to match correctly
           return this.normalizeImageUrls([img]);
         }
-        // Folders
         return this.normalizeImageUrls(this.getImagesFromFolders([img]));
       }),
     };
@@ -98,12 +93,9 @@ export class AbsPatchGenerator<T extends { images?: string[] }> {
   private normalizeImageUrls(images: string[] = []) {
     return images.map((imageUrl) => {
       try {
-        // Convert non-file protocol (absolute path) to file protocol.
         if (!imageUrl.startsWith('file://')) {
           imageUrl = pathToFileURL(imageUrl).href;
         }
-        // Convert file protocol to vscode-file protocol.
-        // file:///Users/foo/bar.png => vscode-file://vscode-app/Users/foo/bar.png
         const url = imageUrl.replace('file://', 'vscode-file://vscode-app');
         return vscode.Uri.parse(url).toString();
       } catch {
@@ -117,7 +109,7 @@ export class AbsPatchGenerator<T extends { images?: string[] }> {
       const types = ['svg', 'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'mp4', 'otf', 'ttf'];
       return fg.sync(
         folders
-          .map((f) => f.replace(/\\/g, '/').replace(/\/+$/, '')) // Handle Windows path separators, remove trailing slash
+          .map((f) => f.replace(/\\/g, '/').replace(/\/+$/, ''))
           .map((f) => `${f}/**/*.@(${types.join('|')})`),
         { onlyFiles: true, absolute: true, caseSensitiveMatch: false },
       );
@@ -137,16 +129,10 @@ export class AbsPatchGenerator<T extends { images?: string[] }> {
     }
     return `
 const images = ${JSON.stringify(images)};
-
-// Preload images and log errors
 images.forEach(url => {
     const img = new Image();
     img.src = url;
-    img.onerror = () => {
-        console.error('CodeCanvas: Failed to load background image:', url);
-    };
 });
-
 const container = (() => {
     const cid = 'backgroundPreloadContainer';
     let c = document.getElementById(cid);
@@ -161,7 +147,6 @@ const container = (() => {
     }
     return c;
 })();
-
 const div = document.createElement('div');
 div.style.backgroundImage = images.map(url => 'url(' + url + ')').join(',');
 container.appendChild(div);
@@ -171,7 +156,6 @@ container.appendChild(div);
   protected getStyle() {
     return '';
   }
-
   protected getScript() {
     return '';
   }
@@ -214,36 +198,9 @@ export class WithoutImagesPatchGenerator extends AbsPatchGenerator<any> {
 
 export class ChecksumsPatchGenerator extends WithoutImagesPatchGenerator {
   private readonly Translations = [
-    // en, default
     'installation appears to be corrupt. Please reinstall.',
-    // cs
-    'je pravděpodobně poškozená. Proveďte prosím přeinstalaci.',
-    // de
-    'Installation ist offenbar beschädigt. Führen Sie eine Neuinstallation durch.',
-    // es
-    'parece estar dañada. Vuelva a instalar.',
-    // fr
-    'semble être endommagée. Effectuez une réinstallation.',
-    // it
-    'sembra danneggiata. Reinstallare.',
-    // ja
-    'インストールが壊れている可能性があります。再インストールしてください。',
-    // ko
-    '설치가 손상된 것 같습니다. 다시 설치하세요.',
-    // pl
-    'prawdopodobnie jest uszkodzona. Spróbuj zainstalować ponownie.',
-    // pt-BR
     'parece estar corrompida. Reinstale-o.',
-    // qps-ploc
-    'ïñstællætïøñ æppëærs tø þë çørrµpt. Plëæsë rëïñstæll.',
-    // ru
-    'повреждена. Повторите установку.',
-    // tr
-    'yüklemeniz bozuk gibi görünüyor. Lütfen yeniden yükleyin.',
-    // zh-hans
     '安装似乎损坏。请重新安装。',
-    // zh-hant
-    '安裝似乎已損毀。請重新安裝。',
   ];
 
   protected getStyle(): string {
@@ -280,20 +237,13 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     if (!legacy?.customImages.length || config?.images.length) {
       return config;
     }
-    return {
-      ...legacy,
-      images: legacy.customImages,
-      random: false,
-    };
+    return { ...legacy, images: legacy.customImages, random: false };
   }
 
   private readonly cssplaceholder = '--background-editor-placeholder';
 
   private get curConfig() {
-    return {
-      ...new EditorPatchGeneratorConfig(),
-      ...this.config,
-    };
+    return { ...new EditorPatchGeneratorConfig(), ...this.config };
   }
 
   private getStyleByOptions(style: Record<string, string>, useFront: boolean): string {
@@ -308,11 +258,7 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     const { images, style, styles, useFront } = this.curConfig;
     return (images || []).map((img, index) => {
       return this.getStyleByOptions(
-        {
-          ...style,
-          ...((styles && styles[index]) || {}), // Handle styles[index] being undefined
-          'background-image': `url(${img})`,
-        },
+        { ...style, ...((styles && styles[index]) || {}), 'background-image': `url(${img})` },
         useFront,
       );
     });
@@ -323,11 +269,9 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     const frontContent = useFront ? 'after' : 'before';
 
     return this.compileCSS(css`
-      /* minimap */
       .minimap {
         opacity: 0.8;
       }
-
       [id='workbench.parts.editor'] .split-view-view {
         .editor-container .overflow-guard > .monaco-scrollable-element > .monaco-editor-background {
           background: none;
@@ -345,7 +289,6 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
               transition: 0.3s;
               background-repeat: no-repeat;
               mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
-              /* placeholder, used for dynamic css replacement */
               ${this.cssplaceholder + (index % (images || []).length)}: #000;
               ${this.cssplaceholder + '-end'}: #000;
             }
@@ -362,34 +305,23 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     }
 
     return `
-// options
 const styleTemplate = ${JSON.stringify(this.styleTemplate)};
 const cssplaceholder = '${this.cssplaceholder}';
 const imageStyles = ${JSON.stringify(this.imageStyles)};
 const interval = ${interval};
 const random = ${random};
-
-// variables
 let curIndex = -1;
-
 const style = (() => {
     const ele = document.createElement('style');
     document.head.appendChild(ele);
     return ele;
 })();
-
 function getNextStyles() {
-    if (random) {
-        return imageStyles.slice().sort(() => Math.random() - 0.5);
-    }
+    if (random) return imageStyles.slice().sort(() => Math.random() - 0.5);
     curIndex++;
     curIndex = curIndex % imageStyles.length;
-    return imageStyles.map((_s, index) => {
-        const sIndex = (curIndex + index) % imageStyles.length;
-        return imageStyles[sIndex];
-    });
+    return imageStyles.map((_s, index) => imageStyles[(curIndex + index) % imageStyles.length]);
 }
-
 function setNextStyles() {
     let curStyle = styleTemplate;
     const nextStyles = getNextStyles();
@@ -399,11 +331,7 @@ function setNextStyles() {
     }
     style.textContent = curStyle;
 }
-
-if (interval > 0) {
-    setInterval(setNextStyles, interval * 1000);
-}
-
+if (interval > 0) setInterval(setNextStyles, interval * 1000);
 setNextStyles();
 `;
   }
@@ -415,25 +343,21 @@ export class FullscreenPatchGenerator<
   protected cssvariable = '--background-fullscreen-img';
 
   protected get curConfig(): T {
-    const cur = {
-      ...new FullscreenPatchGeneratorConfig(),
-      ...this.config,
-    };
+    const cur = { ...new FullscreenPatchGeneratorConfig(), ...this.config };
     if (cur.opacity < 0 || cur.opacity > 0.6) {
-      cur.opacity = new FullscreenPatchGeneratorConfig().opacity;
+      cur.opacity = 0.1;
     }
-    return cur;
+    return cur as T;
   }
 
   protected getStyle(): string {
     const { size, position, opacity } = this.curConfig;
-
     return css`
       body::after {
         content: '';
         display: block;
         position: absolute;
-        z-index: 99; /* REDUZIDO: Para não cobrir notificações e diálogos críticos */
+        z-index: 99;
         inset: 0;
         pointer-events: none;
         background-size: ${size};
@@ -441,7 +365,6 @@ export class FullscreenPatchGenerator<
         background-position: ${position};
         opacity: ${opacity};
         transition: 1s;
-        /* Melhor controle do blend mode */
         mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode}, normal);
         background-image: var(${this.cssvariable});
       }
@@ -458,37 +381,25 @@ const cssvariable = '${this.cssvariable}';
 const images = ${JSON.stringify(images)};
 const random = ${random};
 const interval = ${interval};
-
 let curIndex = -1;
-
 function getNextImg() {
-    if (random) {
-        return images[Math.floor(Math.random() * images.length)];
-    }
-    curIndex++;
-    curIndex = curIndex % images.length;
+    if (random) return images[Math.floor(Math.random() * images.length)];
+    curIndex = (curIndex + 1) % images.length;
     return images[curIndex];
 }
-
 function setNextImg() {
     document.body.style.setProperty(cssvariable, 'url(' + getNextImg() + ')');
 }
-
-if (interval > 0) {
-    setInterval(setNextImg, interval * 1000);
-}
-
+if (interval > 0) setInterval(setNextImg, interval * 1000);
 setNextImg();
-        `;
+`;
   }
 }
 
 export class SidebarPatchGenerator extends FullscreenPatchGenerator<SidebarPatchGeneratorConfig> {
   protected cssvariable = '--background-sidebar-img';
-
   protected getStyle(): string {
     const { size, position, opacity } = this.curConfig;
-
     return css`
       .split-view-view > .part.sidebar::after {
         content: '';
@@ -511,12 +422,38 @@ export class SidebarPatchGenerator extends FullscreenPatchGenerator<SidebarPatch
   }
 }
 
-export class AuxiliarybarPatchGenerator extends FullscreenPatchGenerator<AuxiliarybarPatchGeneratorConfig> {
-  protected cssvariable = '--background-auxiliarybar-img';
-
+// IMPLEMENTAÇÃO: Secondary Sidebar (Barra Lateral Direita)
+export class SecondarybarPatchGenerator extends FullscreenPatchGenerator<SecondarybarPatchGeneratorConfig> {
+  protected cssvariable = '--background-secondarybar-img';
   protected getStyle(): string {
     const { size, position, opacity } = this.curConfig;
+    return css`
+      .split-view-view > .part.sidebar-secondary::after,
+      .split-view-view > .part.auxiliarybar::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99;
+        background-position: ${position};
+        background-repeat: no-repeat;
+        background-size: ${size};
+        pointer-events: none;
+        opacity: ${opacity};
+        transition: 1s;
+        mix-blend-mode: var(${ThemePatchGenerator.cssMixBlendMode});
+        background-image: var(${this.cssvariable});
+      }
+    `;
+  }
+}
 
+export class AuxiliarybarPatchGenerator extends FullscreenPatchGenerator<AuxiliarybarPatchGeneratorConfig> {
+  protected cssvariable = '--background-auxiliarybar-img';
+  protected getStyle(): string {
+    const { size, position, opacity } = this.curConfig;
     return css`
       .split-view-view > .part.auxiliarybar::after {
         content: '';
@@ -540,10 +477,8 @@ export class AuxiliarybarPatchGenerator extends FullscreenPatchGenerator<Auxilia
 
 export class PanelPatchGenerator extends FullscreenPatchGenerator<PanelPatchGeneratorConfig> {
   protected readonly cssvariable = '--background-panel-img';
-
   protected getStyle(): string {
     const { size, position, opacity } = this.curConfig;
-
     return css`
       .split-view-view > .part.panel::after {
         content: '';
@@ -568,16 +503,12 @@ export class PanelPatchGenerator extends FullscreenPatchGenerator<PanelPatchGene
 export class PatchGenerator {
   public static create(options: TPatchGeneratorConfig) {
     const scriptParts: string[] = [];
-
-    // Always include global patches
     scriptParts.push(new ChecksumsPatchGenerator().create());
     scriptParts.push(new ThemePatchGenerator().create());
 
     if (options.fullscreen && options.background?.fullscreen) {
-      // Fullscreen mode active, apply fullscreen background
       scriptParts.push(new FullscreenPatchGenerator(options.background.fullscreen).create());
     } else {
-      // Sectioned mode active, apply per-area backgrounds
       if (options.background?.editor) {
         scriptParts.push(
           new EditorPatchGenerator(
@@ -588,6 +519,10 @@ export class PatchGenerator {
       if (options.background?.sidebar) {
         scriptParts.push(new SidebarPatchGenerator(options.background.sidebar).create());
       }
+      if (options.background?.secondarybar) {
+        // CHAMADA: Nova Barra Lateral Direita
+        scriptParts.push(new SecondarybarPatchGenerator(options.background.secondarybar).create());
+      }
       if (options.background?.auxiliarybar) {
         scriptParts.push(new AuxiliarybarPatchGenerator(options.background.auxiliarybar).create());
       }
@@ -596,12 +531,9 @@ export class PatchGenerator {
       }
     }
 
-    const script = scriptParts
+    return scriptParts
       .filter((n) => !!n.length)
       .map((n) => _.withIIFE(n))
       .join(';');
-
-    return script; // Temporarily disable minification
-    // return uglifyjs.minify(script).code;
   }
 }

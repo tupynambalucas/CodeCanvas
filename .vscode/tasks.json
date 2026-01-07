@@ -73,20 +73,6 @@
       "label": "tasks: watch-tests",
       "dependsOn": ["npm: watch", "npm: watch-tests"],
       "problemMatcher": []
-    },
-    {
-      "label": "🤖 Gemini CLI",
-      "type": "shell",
-      "command": "gemini",
-      "args": ["--include-directories", "."],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
-      "problemMatcher": [],
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      }
     }
   ]
 }
