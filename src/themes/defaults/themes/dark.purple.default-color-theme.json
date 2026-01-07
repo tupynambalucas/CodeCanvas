@@ -1,8 +1,9 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "TDev Dark Purple",
+  "name": "CCanvas Dark Purple",
+  "id": "tupynambalucasdev.codecanvas-dark-purple",
   "type": "dark",
-  "include": "../templates/template.dark-color-theme.json",
+  "include": "../templates/dark.template-color-theme.json",
   "colors": {
     "titleBar.activeForeground": "#fde2ff",
     "editor.background": "#0f0f0f",

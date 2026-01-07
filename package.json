@@ -54,15 +54,10 @@
         }
       }
     },
-    "themes": [
-      {
-        "label": "TDev Dark Purple",
-        "uiTheme": "vs-dark",
-        "path": "./src/themes/defaults/themes/default.dark.purple-color-theme.json"
-      }
-    ]
+    "themes": []
   },
   "scripts": {
+    "update:contributions": "node scripts/update-contributions.mjs",
     "vscode:prepublish": "npm run package",
     "compile": "npm run check-types && npm run lint && node esbuild.js",
     "watch": "npm-run-all -p watch:*",
