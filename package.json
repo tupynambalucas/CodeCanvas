@@ -1,5 +1,6 @@
 {
-  "name": "@tupynambalucasdev/codecanvas",
+  "name": "codecanvas",
+  "publisher": "tupynambalucasdev",
   "displayName": "CodeCanvas",
   "description": "Freedoom",
   "version": "0.0.1",
