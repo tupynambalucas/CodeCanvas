@@ -31,13 +31,13 @@ Register commands in `activate` that are declared in `package.json`.
 context.subscriptions.push(
   vscode.commands.registerCommand('codecanvas.install', async () => {
     // Logic to enable and apply the patch
-  })
+  }),
 );
 
 context.subscriptions.push(
   vscode.commands.registerCommand('codecanvas.uninstallPatch', async () => {
     // Logic to safely remove the patch and restore original files
-  })
+  }),
 );
 ```
 
@@ -46,6 +46,7 @@ context.subscriptions.push(
 All user settings are stored under the `codecanvas` key. The core configuration object is `codecanvas.ui`.
 
 **Reading Configuration:**
+
 ```typescript
 const config = vscode.workspace.getConfiguration('codecanvas');
 const enabled = config.get<boolean>('enabled');
@@ -54,6 +55,7 @@ const uiConfig = config.get('ui'); // This will contain fullscreen, background, 
 
 **Listening for Changes:**
 The extension must react to changes in its own settings or the active theme.
+
 ```typescript
 // From src/background/Background.ts
 vscode.workspace.onDidChangeConfiguration(async (e) => {
@@ -90,7 +92,7 @@ async function safeWriteWithSudo(targetPath: string, content: string) {
     const useSudo = await vscode.window.showWarningMessage(
       'Permission denied. Retry with admin privileges?',
       { modal: true },
-      'Yes'
+      'Yes',
     );
     if (useSudo === 'Yes') {
       // Logic to write to a temp file and use sudo to move it to the target
@@ -115,17 +117,21 @@ async function detectAndApplyThemeBackground() {
   if (!currentThemeName) return;
 
   // 1. Find the theme contribution from all installed extensions
-  const themeExtension = vscode.extensions.all.find(ext => 
-    (ext.packageJSON.contributes?.themes || []).some((t: any) => t.label === currentThemeName || t.id === currentThemeName)
+  const themeExtension = vscode.extensions.all.find((ext) =>
+    (ext.packageJSON.contributes?.themes || []).some(
+      (t: any) => t.label === currentThemeName || t.id === currentThemeName,
+    ),
   );
 
   if (!themeExtension) return;
 
-  const themeContribute = themeExtension.packageJSON.contributes.themes.find((t: any) => t.label === currentThemeName || t.id === currentThemeName);
-  
+  const themeContribute = themeExtension.packageJSON.contributes.themes.find(
+    (t: any) => t.label === currentThemeName || t.id === currentThemeName,
+  );
+
   // 2. Construct the full path to the theme's JSON file
   const themePath = path.join(themeExtension.extensionPath, themeContribute.path);
-  
+
   // 3. Read the file and check for `backgroundConfig`
   try {
     const themeUri = vscode.Uri.file(themePath);
@@ -179,10 +185,11 @@ export class BackgroundManager {
   // Applies a background to a specific UI area
   async apply(
     area: 'editor' | 'sidebar' | 'panel' | 'secondaryView',
-    config: BackgroundConfig
+    config: BackgroundConfig,
   ): Promise<void> {
-    // Implementation updates the 'codecanvas.ui' configuration,
-    // which then triggers the patch update flow.
+    // Implementation updates the 'codecanvas.ui' configuration.
+    // Note: The 'secondaryView' area parameter maps to the 'secondarybar' key
+    // in the settings.json configuration.
   }
 
   // Removes the background from a specific area
@@ -195,6 +202,11 @@ export class BackgroundManager {
     // ...
   }
 
+  // Checks if the patch is currently installed
+  async hasInstalled(): Promise<boolean> {
+    // ...
+  }
+
   // Safely removes all patches and restores VS Code to its original state
   async restoreAll(): Promise<boolean> {
     // ...
@@ -203,4 +215,3 @@ export class BackgroundManager {
 ```
 
 ---
-*Version: 2026-01-08 — Updated for CodeCanvas 1.0*

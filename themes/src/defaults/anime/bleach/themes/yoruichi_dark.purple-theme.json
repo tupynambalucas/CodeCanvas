@@ -1,6 +1,4 @@
 {
-  "$schema": "vscode://schemas/color-theme",
-  "name": "Yoruichi (Bleach) - Dark Purple",
   "template": "dark",
   "colors": {
     "titleBar.activeForeground": "#fde2ff",

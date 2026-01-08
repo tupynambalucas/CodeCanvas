@@ -84,7 +84,7 @@ This mode provides granular control, allowing you to set different backgrounds f
       },
 
       // 📺 Secondary View configuration (e.g., Test Explorer, second sidebar)
-      "secondaryView": {
+      "secondarybar": {
         "images": ["file:///path/to/secondary-bg.jpg"],
         "opacity": 0.1,
         "size": "cover"
@@ -153,7 +153,7 @@ When a user with CodeCanvas installed selects "My Awesome Theme," these backgrou
 This object holds the settings for either **fullscreen** mode or **sectioned** mode.
 
 - **In Fullscreen Mode (`fullscreen: true`)**: The properties below are applied directly to the `background` object.
-- **In Sectioned Mode (`fullscreen: false`)**: The properties are applied within sub-objects: `editor`, `sidebar`, `panel`, or `secondaryView`.
+- **In Sectioned Mode (`fullscreen: false`)**: The properties are applied within sub-objects: `editor`, `sidebar`, `panel`, or `secondarybar`.
 
 | Property | Type | Default | Description |
 |---|---|---|---|

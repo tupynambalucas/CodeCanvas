@@ -1,5 +1,3 @@
-// See https://go.microsoft.com/fwlink/?LinkId=733558
-// for the documentation about the tasks.json format
 {
   "version": "2.0.0",
   "tasks": [
@@ -11,14 +9,53 @@
       "problemMatcher": []
     },
     {
+      "type": "npm",
+      "script": "themes:build",
+      "label": "npm: themes:build",
+      "detail": "Compila os temas do workspace usando Tailwind",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "type": "npm",
+      "script": "themes:dev",
+      "label": "npm: themes:dev",
+      "isBackground": true,
+      "detail": "Monitoriza alterações nos temas (Tailwind)",
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "."
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^.*$",
+          "endsPattern": "^.*$"
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "compile",
+      "label": "npm: compile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Executa o build completo (Temas + Extensão)",
+      "dependsOn": ["npm: clean", "npm: themes:build"],
+      "dependsOrder": "sequence",
+      "problemMatcher": ["$tsc"]
+    },
+    {
       "label": "watch",
-      "dependsOn": ["npm: clean", "npm: watch:tsc", "npm: watch:esbuild"],
+      "dependsOn": ["npm: clean", "npm: themes:dev", "npm: watch:tsc", "npm: watch:esbuild"],
+      "dependsOrder": "sequence",
       "presentation": {
         "reveal": "never"
       },
       "group": {
         "kind": "build",
-        "isDefault": true
+        "isDefault": false
       }
     },
     {
@@ -36,11 +73,11 @@
         "fileLocation": ["relative", "${workspaceFolder}"],
         "pattern": [
           {
-            "regexp": "^✘ \\[ERROR\\] (.*)$",
+            "regexp": "^✘ \\\\[ERROR\\\\] (.*)$",
             "message": 1
           },
           {
-            "regexp": "^\\s*(.*?):(\\d+):(\\d+):$",
+            "regexp": "^\\\\s*(.*?):(\\\\d+):(\\\\d+):$",
             "file": 1,
             "line": 2,
             "column": 3
@@ -64,22 +101,6 @@
         "group": "watch",
         "reveal": "never"
       }
-    },
-    {
-      "type": "npm",
-      "script": "watch-tests",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "presentation": {
-        "reveal": "never",
-        "group": "watchers"
-      },
-      "group": "build"
-    },
-    {
-      "label": "tasks: watch-tests",
-      "dependsOn": ["npm: watch", "npm: watch-tests"],
-      "problemMatcher": []
     }
   ]
 }

@@ -7,7 +7,7 @@ This document provides clear, step-by-step context and acceptance criteria for a
 
 ### Desired Functional Scope:
 
-- **Apply Backgrounds**: Apply custom images or CSS to four key VS Code areas: `editor`, `sidebar` (the main one), `panel` (terminal, output), and `secondaryView` (the secondary sidebar).
+- **Apply Backgrounds**: Apply custom images or CSS to four key VS Code areas: `editor`, `sidebar` (the main one), `panel` (terminal, output), and `secondarybar` (the secondary sidebar).
 - **Fullscreen Mode**: Implement a global `fullscreen` mode that overrides per-area settings to apply a single wallpaper across the entire window.
 - **Image Carousel**: Support multiple images for any area, with an optional `interval`-based rotation and `random` ordering.
 - **Flexible Styling**: Allow CSS styles to be configured per area (e.g., `opacity`, `background-size`, `background-position`).
@@ -31,6 +31,7 @@ This document provides clear, step-by-step context and acceptance criteria for a
 
 - **Architectural Integrity**: New code should follow the existing architectural patterns in `src/background/`, which favor small, testable functions with clear types.
 - **Reversibility**: The extension must never permanently break VS Code. The `CodeCanvas: Uninstall Patch` command must be a reliable way to revert all changes.
+- **Naming Convention**: Be aware of the distinction for the secondary sidebar. The public-facing API uses the area name `secondaryView`, while the corresponding key in `settings.json` is `secondarybar`. This is an intentional mapping.
 
 ---
 
@@ -69,7 +70,7 @@ This document provides clear, step-by-step context and acceptance criteria for a
 
 ### Acceptance Criteria (Minimum Viable):
 
-1. The extension successfully applies backgrounds to the `editor`, `sidebar`, `panel`, and `secondaryView` when configured in `settings.json`.
+1. The extension successfully applies backgrounds to the `editor`, `sidebar`, `panel`, and `secondarybar` when configured in `settings.json`.
 2. Fullscreen mode correctly overrides per-area backgrounds and displays a single, global wallpaper.
 3. The `CodeCanvas: Uninstall Patch` command reliably removes all file modifications and restores VS Code to its original state.
 4. The extension automatically detects and applies `backgroundConfig` from the active theme file upon theme change.

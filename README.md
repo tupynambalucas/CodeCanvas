@@ -8,7 +8,7 @@ CodeCanvas is a Visual Studio Code extension that revolutionizes your workspace 
 
 - **Multiple Background Modes**:
   - **Fullscreen**: Apply a single, global wallpaper across the entire VS Code window.
-  - **Sectioned**: Set distinct backgrounds for the `editor`, `sidebar`, `panel`, and `secondary view` for granular control.
+  - **Sectioned**: Set distinct backgrounds for the `editor`, `sidebar`, `panel`, and `secondarybar` (Secondary View) for granular control.
 - **Image Carousel**: Display multiple images in a rotation, with configurable intervals and random shuffle support.
 - **Automatic Theme Integration**: Themes can now bundle their own background configurations using the `backgroundConfig` property, which CodeCanvas will automatically detect and apply.
 - **Unified Configuration**: All settings are managed under a single, intuitive `codecanvas.ui` object in your `settings.json`.
@@ -63,7 +63,8 @@ CodeCanvas is a Visual Studio Code extension that revolutionizes your workspace 
         "images": ["file:///path/to/sidebar-texture.png"],
         "opacity": 0.05
       },
-      "panel": { "images": [] } // Disable background for the panel
+      "panel": { "images": [] }, // Disable background for the panel
+      "secondarybar": { "images": [] } // Disable background for the secondary bar
     }
   }
 }
@@ -89,7 +90,7 @@ CodeCanvas/
 │   │   ├── Background.ts       # Main orchestrator (BackgroundManager)
 │   │   ├── PatchGenerator.ts   # Generates the JS/CSS code to be injected
 │   │   └── PatchFile.ts        # Handles reading/writing the VS Code file
-│   ├── themes/                 # Default theme definitions
+│   ├── themes/                 # Bundled theme examples
 │   └── utils/                  # Helper modules
 └── package.json                # Extension manifest and contributions
 ```
@@ -144,7 +145,7 @@ npm run compile
 - ✅ Image carousel with interval and randomization
 - ✅ Automatic theme integration via `backgroundConfig`
 - ✅ Safe patching with `Install` and `Uninstall` commands
-- ✅ Support for `secondaryView`
+- ✅ Support for `secondarybar` (Secondary View)
 - 🔄 *In Progress:* A visual management interface for easier configuration.
 - 📋 *Planned:* More pre-configured themes with built-in backgrounds.
 
