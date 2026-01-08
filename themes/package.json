@@ -1,0 +1,12 @@
+{
+  "name": "codecanvas-themes",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.0.0",
+    "fast-glob": "^3.0.0"
+  }
+}
