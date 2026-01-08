@@ -1,7 +1,7 @@
 {
   "template": "dark",
   "colors": {
-    "titleBar.activeForeground": "#fde2ff",
+    "titleBar.activeForeground": "--editor-bg",
     "editor.background": "#0f0f0f",
     "sideBar.background": "#0f0f0f",
     "sideBar.foreground": "#ffffff",

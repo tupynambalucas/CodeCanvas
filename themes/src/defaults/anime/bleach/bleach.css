@@ -1,4 +1,6 @@
+/* themes/src/defaults/anime/bleach/bleach.css */
 .theme-yoruichi-dark-purple {
+  /* Definindo valores brutos sem depender do tailwind config */
   --editor-bg: #0f0f0f;
   --activity-bar-bg: #ff00ff;
   --accent-color: #aa00ff;

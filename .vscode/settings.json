@@ -37,7 +37,9 @@
   },
   "[json]": {
     "editor.quickSuggestions": {
-      "strings": true
+      "strings": true,
+      "other": true,
+      "comments": true
     },
     "editor.suggest.insertMode": "replace"
   },
@@ -48,5 +50,24 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }
+  },
+  "editor.colorDecorators": true,
+  "tailwindCSS.emmetCompletions": true,
+
+  "tailwindCSS.experimental.classRegex": [
+    // Esta regex é mais simples e eficiente para valores únicos em JSON
+    ["\"([^\"]*)\"", "([^\\s\"]+)"]
+  ],
+
+  "tailwindCSS.includeLanguages": {
+    "json": "css" // Garante que o JSON seja tratado como CSS pelo Tailwind
+  },
+
+  // 2. Aponta para o ficheiro de configuração dentro da subpasta themes
+  "tailwindCSS.experimental.configFile": "themes/tailwind.config.mjs",
+
+  // 3. Garante que o VS Code trate JSON como JSONC (JSON com comentários)
+  "files.associations": {
+    "*.json": "jsonc"
   }
 }
