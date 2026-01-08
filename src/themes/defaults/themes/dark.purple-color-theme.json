@@ -46,9 +46,9 @@
         "https://res.cloudinary.com/deqmqcdww/image/upload/v1767592000/karmets_biohtu.png"
       ],
       "style": {
-        "opacity": 0.5,
-        "background-position": "top center",
-        "background-size": "fill"
+        "opacity": 0.2,
+        "background-position": "center",
+        "background-size": "cover"
       }
     }
   }

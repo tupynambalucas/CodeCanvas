@@ -56,24 +56,25 @@
     },
     "themes": [
       {
-        "id": "tupynambalucasdev.codecanvas-dark-purple",
-        "label": "DarkPurple",
+        "id": "tupynambalucasdev.codecanvas-yoruichi-purple",
+        "label": "Yoruichi (Bleach) - Dark Purple",
         "uiTheme": "vs-dark",
         "path": "./src/themes/defaults/themes/dark.purple-color-theme.json"
       }
     ]
   },
   "scripts": {
+    "clean": "node -e \"const fs = require('fs'); ['out', 'dist'].forEach(p => fs.rmSync(p, { recursive: true, force: true }))\"",
     "update:contributions": "node scripts/update-contributions.mjs",
     "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
+    "compile": "npm run clean && npm run check-types && npm run lint && node esbuild.js",
+    "package": "npm run clean && npm run check-types && npm run lint && node esbuild.js --production",
+    "pretest": "npm run clean && npm run compile-tests && npm run compile && npm run lint",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch": "npm run clean && npm-run-all -p watch:*",
     "watch:esbuild": "node esbuild.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vscode-test"

@@ -1,100 +1,89 @@
-L1:# CONTEXT for AI — Implementation and Verification of the CodeCanvas extension
-L2:
-L3:Purpose:
-L4:The purpose of this document is to provide clear, step-by-step context and acceptance criteria for an automated agent (AI) or developer to implement the background logic of the CodeCanvas extension. Use the `vscode-background` reference (`vscode-background-master/`) only for inspection — DO NOT copy code verbatim; adapt to CodeCanvas architecture.
-L5:
-L6:Desired functional scope:
-L7:
-L8:- Apply a background (image/CSS) to the following VS Code areas: `editor`, `sidebar` (main sidebar), `panel` (terminal/output), and `secondaryView` (secondary sidebar when applicable).
-L9:- Implement a `fullscreen` mode that ignores sub-views and applies a global wallpaper.
-L10:- Support multiple images with an optional `carousel` (interval-based rotation, optional random order).
-L11:- Allow CSS styles per area (e.g. `opacity`, `background-size`, `background-position`).
-L12:- Detect themes under `src/themes/custom/*.theme.json` that include the `backgroundConfig` key and register automatic integration.
-L13:
-L14:Relevant files (starting points):
-L15:
-L16:- `src/extension.ts` — extension entry point for CodeCanvas.
-L17:- `src/themes/` — theme definitions.
+# CONTEXT for AI — Implementation and Verification of the CodeCanvas Extension
 
-- Default built-in themes: `src/themes/defaults/themes/`
-- Theme templates (used for inheritance only, not contributed): `src/themes/defaults/templates/`
-- Custom user themes: `src/themes/custom/`
-- Look for `backgroundConfig` in `.theme.json` files.
-  L18:- `src/background/` — implement injection/removal logic here (create if missing).
-  L19:- `vscode-background-master/src/background/` — reference to learn patching/injection strategies.
-  L20:- `package.json`, `CONFIG.md`, `README.md` — update contributions and documentation as part of implementation.
-  L21:
-  L22:Rules and constraints:
-  L23:
-  L24:- Do not modify files in `vscode-background-master` — only consult them.
-  L25:- Prefer creating your own architecture in `src/background/` with testable APIs (small functions, explicit types).
-  L26:- The extension must not break VS Code; always provide ways to revert changes (command `Uninstall Patch`).
-  L27:
-  L28:Detailed steps (recommended order):
-  L29:
-  L30:1. Inspection and design
-  L31:
-  L32: - Read `vscode-background-master/src/background/` to identify useful patterns (e.g., where CSS is injected, how checksums are computed).
-  L33: - Define the local API for `BackgroundManager` in `src/background/Background.ts` (methods: `apply(area, config)`, `remove(area)`, `applyFullscreen(config)`, `restoreAll()`).
-  L34:
-  L35:2. Basic implementation
-  L36:
-  L37: - Create `src/background/Background.ts` with an initial implementation that injects a positioned `<div>` per target area.
-  L38: - Support reading `codecanvas.ui` from `settings.json` and applying `editor`, `sidebar`, `panel`, `secondaryView`.
-  L39:
-  L40:3. Fullscreen mode
-  L41:
-  L42: - Implement `applyFullscreen(config)` that overlays/hides per-area backgrounds and applies a single wallpaper covering the entire window.
-  L43:
-  L44:4. Carousel and validations
-  L45:
-  L46: - Implement image rotation with `interval` (seconds) and `random`.
-  L47: - Validate `file:///` paths and remote URLs and provide fallbacks when invalid.
-  L48:
-  L49:5. Theme integration
-  L50:
-  L51: - Detect `backgroundConfig` in main theme files (not templates) during `scripts/update-contributions.mjs` and register only these entries in `package.json`.
-- Theme templates (stored in `src/themes/defaults/templates/`) can be included in a main theme file via the `include` property for inheritance, but are never registered or contributed directly.
-  L52:
-  L53:6. Commands and safety
-  L54:
-  L55: - Implement the commands listed in `README.md` (`Install / Enable`, `Disable`, `Uninstall Patch`, `Info`).
-  L56: - Ensure `Uninstall Patch` reverts any modification safely.
-  L57:
-  L58:7. Tests and lint
-  L59: - Add unit tests for testable parts (config validation, image selection, carousel behavior).
-  L60: - Run `eslint` and `tsc --noEmit` ensuring no errors.
-  L61:
-  L62:Acceptance criteria (minimum viable)
-  L63:
-  L64:1. The extension applies backgrounds at least to `editor`, `sidebar` and `panel` when configured in `settings.json`.
-  L65:2. Fullscreen mode replaces per-area backgrounds and displays a global wallpaper.
-  L66:3. There is a `CodeCanvas: Uninstall Patch` command that removes changes and restores previous state.
-  L67:4. The solution provides clear console logs and user-friendly errors when images fail to load.
-  L68:5. No irreversible direct changes to user system files without confirmation (e.g., backups or rollback steps).
-  L69:
-  L70:Progress & confirmation format (how the AI should report):
-  L71:
-  L72:- For each step (1..7) the AI must generate a brief report with:
-  L73:
-  L74: - What was done (files created/modified with paths).
-  L75: - Tests executed and results (pass/fail).
-  L76: - Linter/type-check results.
-  L77: - If human approval is needed (e.g., architectural decisions, breaking changes), list it clearly and pause for confirmation.
-  L78:
-  L79:- Upon finishing implementation, ask for user confirmation and provide a summary of changed files and completed tasks.
-  L80:
-  L81:Review checklist before marking done:
-  L82:
-  L83:- [ ] Unit tests cover main functions.
-  L84:- [ ] Lint/type checks clean.
-  L85:- [ ] `Uninstall Patch` command tests rollback.
-  L86:- [ ] Documentation updated (`README.md`, `CONFIG.md`, `package.json` contributions).
-  L87:
-  L88:Notes for the AI developer:
-  L89:
-  L90:- Keep commits small and atomic if operating with VCS.
-  L91:- Document important changes in commit messages and `README.md`.
-  L92:- If technical uncertainty arises, ask a specific question instead of making a risky decision.
-  L93:
-  L94:Version of this context: 2026-01-07
+**Purpose:**
+This document provides clear, step-by-step context and acceptance criteria for an automated agent (AI) or developer to implement and maintain the background logic of the CodeCanvas extension. It is designed to guide development by outlining the architecture, desired functionality, and verification steps.
+
+
+
+### Desired Functional Scope:
+
+- **Apply Backgrounds**: Apply custom images or CSS to four key VS Code areas: `editor`, `sidebar` (the main one), `panel` (terminal, output), and `secondaryView` (the secondary sidebar).
+- **Fullscreen Mode**: Implement a global `fullscreen` mode that overrides per-area settings to apply a single wallpaper across the entire window.
+- **Image Carousel**: Support multiple images for any area, with an optional `interval`-based rotation and `random` ordering.
+- **Flexible Styling**: Allow CSS styles to be configured per area (e.g., `opacity`, `background-size`, `background-position`).
+- **Automatic Theme Integration**: Dynamically detect `backgroundConfig` in the active theme's JSON file and apply the settings automatically when the theme is selected.
+
+---
+
+### Relevant Files (Starting Points):
+
+- `src/extension.ts`: The main extension entry point. Handles command registration and activation.
+- `src/background/Background.ts`: Contains the `BackgroundManager` class, which orchestrates all background-related logic. This is the central control unit.
+- `src/background/PatchGenerator.ts`: The core of the styling logic. It generates the JavaScript and CSS code that gets injected into VS Code.
+- `src/background/PatchFile.ts`: Manages the physical file patching of `workbench.desktop.main.js`. Handles reading, writing, restoring backups, and requesting elevated permissions.
+- `src/theme-integration.ts`: Implements the logic to detect and apply background configurations from the active VS Code theme.
+- `src/utils/`: Contains helper modules for constants, path resolution, and other utilities.
+- `CONFIG.md`, `README.md`: Key documentation files that must be updated to reflect any functional changes.
+
+---
+
+### Rules and Constraints:
+
+- **Architectural Integrity**: New code should follow the existing architectural patterns in `src/background/`, which favor small, testable functions with clear types.
+- **Reversibility**: The extension must never permanently break VS Code. The `CodeCanvas: Uninstall Patch` command must be a reliable way to revert all changes.
+
+---
+
+### Detailed Steps (Recommended Order for Implementation/Verification):
+
+**1. Inspection and Design**
+   - **Analyze `PatchFile.ts` and `PatchGenerator.ts`**: Understand how the current implementation injects CSS and JS, manages different background types (fullscreen, editor, sidebar, etc.), and handles image URLs.
+   - **Review `BackgroundManager`**: Study `src/background/Background.ts` to understand how it orchestrates the patching process, handles configuration changes, and exposes its API.
+
+**2. Basic Implementation (Covered)**
+   - The current implementation in `BackgroundManager` already reads from `codecanvas.ui` and applies patches for all target areas. The task is to maintain or extend this.
+
+**3. Theme Integration (The "Smart" Part)**
+   - **Goal**: Instead of statically mapping themes, the extension should react to theme changes in real-time.
+   - **Implementation (`theme-integration.ts`)**:
+     - On activation and on `workbench.colorTheme` change, get the current theme name.
+     - Use `vscode.extensions.all` to find the extension that contributes the active theme.
+     - Construct the full path to the theme's `.json` file.
+     - Read the file using `vscode.workspace.fs`.
+     - Check for a `backgroundConfig` property within the theme's JSON.
+     - If it exists, update the `codecanvas.ui.background` configuration section with its content. This will trigger the `onConfigChange` listener in `BackgroundManager`, prompting the user to reload.
+
+**4. Commands and Safety**
+   - Ensure the following commands are implemented and functional:
+     - `CodeCanvas: Install / Enable`: Enables the `codecanvas.enabled` setting and triggers an install/reload prompt.
+     - `CodeCanvas: Disable`: Disables the `codecanvas.enabled` setting and triggers an uninstall/reload prompt.
+     - `CodeCanvas: Uninstall Patch`: Directly calls the `uninstall()` method to revert all file changes.
+     - `CodeCanvas: Info`: Reports whether the workbench file is currently patched.
+   - The `uninstall` logic must be robust enough to clean up any modifications made by the extension.
+
+**5. Tests and Linting**
+   - Add/update unit tests in the `src/test/` directory to cover any new logic (e.g., config validation, new `PatchGenerator` features).
+   - Run `npm run lint` and `npm run check-types` to ensure the code adheres to project standards.
+
+---
+
+### Acceptance Criteria (Minimum Viable):
+
+1. The extension successfully applies backgrounds to the `editor`, `sidebar`, `panel`, and `secondaryView` when configured in `settings.json`.
+2. Fullscreen mode correctly overrides per-area backgrounds and displays a single, global wallpaper.
+3. The `CodeCanvas: Uninstall Patch` command reliably removes all file modifications and restores VS Code to its original state.
+4. The extension automatically detects and applies `backgroundConfig` from the active theme file upon theme change.
+5. The patching process handles file permission errors gracefully by prompting for administrative privileges.
+
+---
+
+### Review Checklist Before Marking Done:
+
+- [ ] Unit tests cover all critical functions.
+- [ ] `npm run lint` and `npm run check-types` pass without errors.
+- [ ] The `Uninstall Patch` command has been tested and verified to restore the workbench file.
+- [ ] Documentation (`README.md`, `CONFIG.md`) is updated to reflect all features and configuration options.
+- [ ] The `CONTEXT.md` file itself is updated if the core architecture or development process changes.
+
+---
+*Version: 2026-01-08 — Updated for CodeCanvas 1.0*

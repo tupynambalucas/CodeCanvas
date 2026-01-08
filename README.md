@@ -1,40 +1,129 @@
-# CodeCanvas — Custom Themes for VS Code
+# CodeCanvas — Dynamic Backgrounds and Themes for VS Code
 
 ![Logo](images/logo.png)
 
-An extension for Visual Studio Code that provides custom themes integrated with an intelligent background system. Developed as an evolution of the `vscode-background` extension, with a focus on a unified and automated experience.
+CodeCanvas is a Visual Studio Code extension that revolutionizes your workspace by integrating a powerful background and theming system. It allows you to add custom backgrounds to different parts of the UI, automatically integrates with your favorite themes, and provides a unified system for a truly personalized coding environment.
 
-Note: This repository includes `CONTEXT.md` — a guidance document for automated agents (AI) with step-by-step instructions for implementing, verifying, and reporting progress on the background logic. It also includes `VSCODE_API.md`, a practical VS Code API reference tailored to CodeCanvas (examples for `workspace.fs`, command registration, and safe patching practices). See `CONTEXT.md` and `VSCODE_API.md` for recommended steps, acceptance criteria and when the automated agent should request human confirmation before making critical changes.
+## ✨ Features
 
-## ✨ What is CodeCanvas
-
-CodeCanvas combines elegant visual themes with automatic background settings to create a visually cohesive and customizable development experience. Each theme includes not only colors but also optimized background settings for different UI areas.
-
-## 🎨 Available Themes
-
-### Dark Purple Theme
-
-- **Name**: `tdev.dark.purple`
-- **Type**: Dark theme
-- **Palette**: Elegant purple with magenta highlights
-- **Features**:
- - Dark interface optimized for long coding sessions
- - Appropriate contrast to reduce eye strain
- - Integrated background settings
- - Sidebar and panel with complementary tones
-
-### Theme System
+- **Multiple Background Modes**:
+  - **Fullscreen**: Apply a single, global wallpaper across the entire VS Code window.
+  - **Sectioned**: Set distinct backgrounds for the `editor`, `sidebar`, `panel`, and `secondary view` for granular control.
+- **Image Carousel**: Display multiple images in a rotation, with configurable intervals and random shuffle support.
+- **Automatic Theme Integration**: Themes can now bundle their own background configurations using the `backgroundConfig` property, which CodeCanvas will automatically detect and apply.
+- **Unified Configuration**: All settings are managed under a single, intuitive `codecanvas.ui` object in your `settings.json`.
+- **Safe & Reversible Patching**: CodeCanvas modifies a core VS Code file to inject styles, but it does so safely. It automatically creates backups and provides a one-click `Uninstall Patch` command to revert all changes.
+- **Developer-Friendly**: An API is available for other extensions to programmatically control backgrounds.
 
 ## 🚀 Installation and Usage
 
-### Prerequisites
+1.  **Install from Marketplace** (Recommended)
+    - Open the Extensions view in VS Code (`Ctrl+Shift+X`).
+    - Search for "CodeCanvas" and click **Install**.
 
-- Visual Studio Code ^1.107.0
-- Node.js (for local development)
+2.  **Enable Backgrounds**
+    - Open the Command Palette (`Ctrl+Shift+P`).
+    - Run the command `CodeCanvas: Install / Enable`.
+    - VS Code will prompt you to restart. Click "Restart" to apply the patch.
 
-### Installation
+3.  **Configure Your Backgrounds**
+    - Open your `settings.json` file and add your configuration to the `codecanvas.ui` object.
 
-`bash
+### Example: Fullscreen Mode
+
+```json
+{
+  "codecanvas.enabled": true,
+  "codecanvas.ui": {
+    "fullscreen": true,
+    "background": {
+      "images": ["file:///path/to/your/wallpaper.jpg"],
+      "opacity": 0.15,
+      "size": "cover"
+    }
+  }
+}
+```
+
+### Example: Sectioned Mode
+
+```json
+{
+  "codecanvas.enabled": true,
+  "codecanvas.ui": {
+    "fullscreen": false,
+    "background": {
+      "editor": {
+        "images": ["file:///path/to/editor-bg.png"],
+        "opacity": 0.1,
+        "position": "right bottom",
+        "size": "auto"
+      },
+      "sidebar": {
+        "images": ["file:///path/to/sidebar-texture.png"],
+        "opacity": 0.05
+      },
+      "panel": { "images": [] } // Disable background for the panel
+    }
+  }
+}
+```
+
+After saving your changes, CodeCanvas will prompt you to reload for the new settings to take effect.
+
+## 🎯 Available Commands
+
+- `CodeCanvas: Install / Enable`: Installs the patch and enables backgrounds.
+- `CodeCanvas: Uninstall Patch`: Completely and safely removes all modifications.
+- `CodeCanvas: Disable`: Temporarily disables backgrounds without uninstalling the patch.
+- `CodeCanvas: Info`: Shows whether the patch is currently installed.
+
+## 🏗️ Project Structure
+
+```
+CodeCanvas/
+├── src/
+│   ├── extension.ts            # Extension entry point and command registration
+│   ├── theme-integration.ts    # Logic for automatic theme background detection
+│   ├── background/             # Core patching and styling logic
+│   │   ├── Background.ts       # Main orchestrator (BackgroundManager)
+│   │   ├── PatchGenerator.ts   # Generates the JS/CSS code to be injected
+│   │   └── PatchFile.ts        # Handles reading/writing the VS Code file
+│   ├── themes/                 # Default theme definitions
+│   └── utils/                  # Helper modules
+└── package.json                # Extension manifest and contributions
+```
+
+## 🔧 Development
+
+This repository contains guidance documents (`CONTEXT.md`, `VSCODE_API.md`) for automated AI agents to assist with development.
+
+### Creating a Theme with Integrated Backgrounds
+
+You can create a VS Code theme that specifies its own recommended backgrounds.
+
+1.  **Add a `backgroundConfig` key** to your theme's `.json` file. The structure is identical to the `codecanvas.ui.background` object.
+
+    ```json
+    {
+      "name": "My Awesome Theme",
+      "type": "dark",
+      "colors": { ... },
+      "backgroundConfig": {
+        "editor": {
+          "images": ["https://my-cdn.com/theme-bg.png"],
+          "opacity": 0.12,
+          "size": "cover"
+        }
+      }
+    }
+    ```
+
+2.  **How it Works**: When a user with CodeCanvas activates your theme, the extension will automatically read and apply the `backgroundConfig` settings.
+
+### Local Build
+
+```bash
 # Clone the repository
 git clone https://github.com/tupynambalucas/CodeCanvas.git
 cd CodeCanvas
@@ -42,228 +131,30 @@ cd CodeCanvas
 # Install dependencies
 npm install
 
-# Build the extension
-npm run compile
-`
-
-### How to Use
-
-1. **Extension installation**:
-
- - Press `F5` in VS Code to open a new window with the extension loaded
- - Or build and install the `.vsix` file manually
-
-2. **Selecting a theme**:
-
- - Open the Command Palette (`Ctrl+Shift+P`)
- - Type "Color Theme" and select
- - Choose "tdev.dark.purple" from the available themes
-
-3. **Unified configuration**:
-CodeCanvas uses a centralized configuration. Add the following to your `settings.json`:
-
-```json
-{
-  "codecanvas.enabled": true, // Enable/disable CodeCanvas
-  "codecanvas.ui": {
-    "theme": "tdev.dark.purple",
-    "fullscreen": false,
-    "background": {
-      "editor": {
-        "images": ["file:///path/to/image.jpg"],
-        "style": { "opacity": "0.3" }
-      },
-      "sidebar": { "images": [], "style": {} },
-      "panel": { "images": [], "style": {} }
-    }
-  }
-}
-```
-
-### Fullscreen mode
-
-To apply a single background across the entire VS Code window:
-
-```json
-{
-  "codecanvas.ui": {
-    "fullscreen": true,
-    "background": {
-      "images": ["file:///path/to/fullscreen-bg.jpg"],
-      "style": {
-        "background-size": "cover",
-        "opacity": "0.2"
-      }
-    }
-  }
-}
-```
-
-### Automatic theme system
-
-CodeCanvas includes an automatic update system:
-
-`bash
-# Automatically update theme contributions
-node scripts/update-contributions.mjs
-`
-
-This script:
-
-- Detects new themes in `src/themes/custom/`
-- Updates `package.json` with new contributions
-- Registers themes that include integrated background configuration
-
-## 🎯 Commands and Actions
-
-### Available commands (Ctrl+Shift+P)
-
-- `CodeCanvas: Info` - Shows information about the current configuration
-- `CodeCanvas: Install / Enable` - Installs/enables the background patches
-- `CodeCanvas: Disable` - Temporarily disables backgrounds
-- `CodeCanvas: Uninstall Patch` - Completely removes CodeCanvas patches
-- `CodeCanvas: Show All Commands` - Lists all available commands
-
-## 🏗️ Project Structure
-
-`
-CodeCanvas/
-├── vscode-background-master/     # Reference base extension
-├── src/                         # Source code for CodeCanvas extension
-│   ├── extension.ts            # Entry point and unified logic
-│   ├── theme-integration.ts    # Theme-background integration
-│   ├── background/             # CSS application logic
-│   ├── themes/                 # Theme system
-│   │   ├── custom/             # Custom themes
-│   │   └── defaults/           # Default assets
-│   └── test/                   # Tests
-├── scripts/                    # Automation scripts
-└── package.json                # Main configuration
-`
-
-## 🔧 Development
-
-### Theme system
-
-#### Creating a new theme
-
-1. **Add a theme file** under `src/themes/custom/`:
-
-`json
-{
-  "$schema": "vscode://schemas/color-theme",
-  "name": "my-custom-theme",
-  "type": "dark",
-  "include": "../defaults/themes/dark_default.json",
-  "colors": {
-    "editor.background": "#1a1a1a",
-    "sideBar.background": "#1a1a1a"
-  },
-  "backgroundConfig": {
-    "editor": {
-      "useFront": true,
-      "style": {
-        "background-size": "cover",
-        "opacity": "0.1"
-      }
-    }
-  }
-}
-`
-
-2. **Run the update script**:
-
-`bash
-node scripts/update-contributions.mjs
-`
-
-3. **Recompile the extension**:
-
-`bash
-npm run compile
-`
-
-### Development commands
-
-```bash
-
-# Install and setup
-
-npm install
-
-# TypeScript build
-
+# Compile the extension
 npm run compile
 
-# Update themes
-
-node scripts/update-contributions.mjs
-
-# Tests
-
-npm run test
-
-# Production build
-
-npm run package
-
+# Press F5 in VS Code to open a new window with the extension loaded
 ```
 
-## 🤝 Contributing
+## 📋 Roadmap
 
-### Adding new themes
-
-1. **Create a theme file** under `src/themes/custom/` following the existing pattern
-2. **Include `backgroundConfig`** (optional) to enable automatic background integration
-3. **Run the update script** to register the theme automatically
-4. **Test the integration** with `F5` in VS Code
-
-### Guidelines
-
-- Keep visual consistency with existing themes
-- Document colors and the theme purpose
-- Test on different operating systems
-- Follow naming conventions (`tdev.[name].[variant]`)
-
-## 📝 Available scripts
-
-```json
-{
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
-  }
-}
-```
-
-## 📋 Current roadmap
-
-- ✅ Basic theme system implemented
-- ✅ Automatic update script functional
-- ✅ Unified configuration system (CodeCanvas UI)
-- ✅ Fullscreen mode implemented
-- ✅ Carousel and validations
-- ✅ Theme integration
-- ✅ Commands and safety
-- 🔄 Visual management interface
-- 📋 More preconfigured themes
+- ✅ Unified configuration system (`codecanvas.ui`)
+- ✅ Fullscreen and sectioned background modes
+- ✅ Image carousel with interval and randomization
+- ✅ Automatic theme integration via `backgroundConfig`
+- ✅ Safe patching with `Install` and `Uninstall` commands
+- ✅ Support for `secondaryView`
+- 🔄 *In Progress:* A visual management interface for easier configuration.
+- 📋 *Planned:* More pre-configured themes with built-in backgrounds.
 
 ## 👨‍💻 Author
 
 **Tupynambá Lucas**
 
 - GitHub: [@tupynambalucas](https://github.com/tupynambalucas)
-- Based on the extension: [vscode-background](https://github.com/shalldie/vscode-background)
+
 
 ## 📄 License
 
 MIT License - See the [LICENSE](LICENSE) file for details.
-
----
-
-**Note**: This project is actively under development. Some features may be incomplete or experimental.

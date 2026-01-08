@@ -4,8 +4,15 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "type": "npm",
+      "script": "clean",
+      "label": "npm: clean",
+      "detail": "Limpa as pastas de saída (out e dist)",
+      "problemMatcher": []
+    },
+    {
       "label": "watch",
-      "dependsOn": ["npm: watch:tsc", "npm: watch:esbuild"],
+      "dependsOn": ["npm: clean", "npm: watch:tsc", "npm: watch:esbuild"],
       "presentation": {
         "reveal": "never"
       },
