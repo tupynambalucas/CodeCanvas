@@ -1,7 +1,7 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "id": "dark-purple",
-  "name": "DarkPurple",
+  "id": "yoruichi-purple",
+  "name": "Yoruichi (Bleach) - Dark Purple",
   "type": "dark",
   "include": "../templates/dark.template-color-theme.json",
   "colors": {
@@ -10,7 +10,10 @@
     "sideBar.background": "#0f0f0f",
     "sideBar.foreground": "#ffffff",
     "sideBar.border": "#332933",
-    "sideBarSectionHeader.background": "#AC00FF",
+    "sideBarSectionHeader.background": "#aa00ff6c",
+    "editorStickyScroll.background": "#00000021",
+    "scrollbarSlider.background": "#ffffff38",
+    "minimap.background": "#94949407",
     "panel.background": "#290133",
     "panel.border": "#332933",
     "panelTitleBadge.foreground": "#141414",
@@ -18,8 +21,7 @@
     "terminal.background": "#000000",
     "editorCursor.background": "#ff00ff",
     "activityBar.background": "#ff00ff",
-    "editorWidget.background": "#d40d0d",
-    "minimap.background": "#13fc0b",
+    "editorWidget.background": "#aa00ffb2",
     "banner.background": "#18f2ff",
     "chat.requestBackground": "#fa00fa",
     "chat.requestBorder": "#f31515",
@@ -43,18 +45,11 @@
       "images": [
         "https://res.cloudinary.com/deqmqcdww/image/upload/v1767592000/karmets_biohtu.png"
       ],
-      "opacity": 0.5,
       "style": {
-        "background-position": "auto auto",
-        "background-size": "contain"
+        "opacity": 0.5,
+        "background-position": "top center",
+        "background-size": "fill"
       }
-    },
-    "sidebar": {
-      "images": [
-        "https://res.cloudinary.com/deqmqcdww/image/upload/v1767592000/karmets_biohtu.png"
-      ],
-      "opacity": 0.5,
-      "size": "cover"
     }
   }
 }

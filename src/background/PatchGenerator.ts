@@ -234,7 +234,8 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     legacy: LegacyEditorPatchGeneratorConfig,
     config: EditorPatchGeneratorConfig,
   ): EditorPatchGeneratorConfig {
-    if (!legacy?.customImages.length || config?.images.length) {
+    // Adicionado ?. antes de .length para segurança
+    if (!legacy?.customImages?.length || config?.images?.length) {
       return config;
     }
     return { ...legacy, images: legacy.customImages, random: false };
