@@ -7,7 +7,7 @@ import { vsHelp } from '../utils/vsHelp';
 import { ENCODING, EXTENSION_NAME, TOUCH_FILE_PATH } from '../utils/constants';
 
 /**
- * Interface para configuração de fundo enviada via API ou Temas
+ * Background configuration interface passed via API or Themes
  */
 export interface BackgroundConfig {
   images?: string[];
@@ -17,7 +17,7 @@ export interface BackgroundConfig {
   size?: 'cover' | 'contain' | string;
   position?: string;
   style?: Record<string, string>;
-  useFront?: boolean; // Específico para o editor
+  useFront?: boolean; // Specific to the editor
 }
 
 export class BackgroundManager implements vscode.Disposable {
@@ -32,13 +32,13 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * Obtém a configuração unificada do CodeCanvas
+   * Retrieves the unified CodeCanvas configuration
    */
   private get config(): TPatchGeneratorConfig {
     const cfg = vscode.workspace.getConfiguration(EXTENSION_NAME);
     const ui = cfg.get('ui') || {};
 
-    // Mapeamento de propriedades legadas para retrocompatibilidade
+    // Legacy property mapping for backward compatibility
     const legacyConfig = {
       useFront: cfg.get('useFront'),
       style: cfg.get('style'),
@@ -64,8 +64,8 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * Disparado quando qualquer configuração relevante muda.
-   * Solicita ao usuário que recarregue a janela para aplicar o patch.
+   * Triggered when any relevant configuration changes.
+   * Prompts user to reload window to apply patch.
    */
   private async onConfigChange() {
     const hasInstalled = await this.hasInstalled();
@@ -103,7 +103,7 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * Gera e aplica o patch de JS/CSS nos arquivos internos do VS Code
+   * Generates and applies the JS/CSS patch to VS Code internal files
    */
   async install(): Promise<boolean> {
     const scriptContent = PatchGenerator.create(this.config);
@@ -120,7 +120,7 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * Remove todas as modificações e restaura o arquivo original
+   * Removes all modifications and restores the original file
    */
   async uninstall(): Promise<boolean> {
     const success = await this.jsFile.restore();
@@ -135,24 +135,24 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * API: Aplica fundo a uma área específica
+   * API: Applies background to a specific area
    */
   async apply(area: 'editor' | 'sidebar' | 'panel' | 'secondaryView', cfg: BackgroundConfig) {
     const config = vscode.workspace.getConfiguration(EXTENSION_NAME);
     const ui: any = config.get('ui') || {};
 
-    // Mapeia secondaryView para a chave interna secondarybar
+    // Maps 'secondaryView' to internal key 'secondarybar'
     const areaKey = area === 'secondaryView' ? 'secondarybar' : area;
 
     ui.background = ui.background || {};
     ui.background[areaKey] = cfg;
 
-    // Atualizar o objeto 'ui' dispara o listener onDidChangeConfiguration
+    // Updating 'ui' object triggers onDidChangeConfiguration listener
     await config.update('ui', ui, vscode.ConfigurationTarget.Global);
   }
 
   /**
-   * API: Remove fundo de uma área específica
+   * API: Removes background from a specific area
    */
   async remove(area: string) {
     const config = vscode.workspace.getConfiguration(EXTENSION_NAME);
@@ -166,7 +166,7 @@ export class BackgroundManager implements vscode.Disposable {
   }
 
   /**
-   * API: Ativa o modo Fullscreen com a configuração fornecida
+   * API: Activates Fullscreen mode with provided configuration
    */
   async applyFullscreen(cfg: BackgroundConfig) {
     const config = vscode.workspace.getConfiguration(EXTENSION_NAME);

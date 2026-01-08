@@ -1,15 +1,15 @@
 import * as vscode from 'vscode';
 
 /**
- * VSCode 相关的帮助方法
+ * VSCode helper methods
  */
 export const vsHelp = new (class {
     /**
-     * 显示重新加载的弹窗
+     * Shows reload window prompt
      *
-     * @param {string} message 重新加载信息
-     * @param {string} btnText 按钮文字
-     * @param {Function} beforeReload 重新加载前的回调
+     * @param {string} message Reload message
+     * @param {string} btnText Button text
+     * @param {Function} beforeReload Callback before reload
      * @memberof VsHelp
      */
     public reload(options: { message?: string; btnReload?: string; beforeReload?: Function } = {}) {

@@ -1,13 +1,13 @@
 import * as vscode from 'vscode';
 import { BackgroundManager } from './background/Background';
-// RESTAURADO: Importação necessária para detecção automática de temas
+// Import necessary for automatic theme detection
 import { detectAndApplyThemeBackground } from './theme-integration';
 
 export function activate(context: vscode.ExtensionContext) {
   const backgroundManager = new BackgroundManager(context);
   context.subscriptions.push(backgroundManager);
 
-  // RESTAURADO: Ouvir mudanças de tema do workbench para aplicar fundos automaticamente
+  // Listen for workbench theme changes to automatically apply backgrounds
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (e.affectsConfiguration('workbench.colorTheme')) {
@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
     }),
   );
 
-  // Execução inicial ao ativar a extensão
+  // Initial execution on extension activation
   detectAndApplyThemeBackground();
 
   context.subscriptions.push(

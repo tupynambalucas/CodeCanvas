@@ -9,20 +9,20 @@ export class VscodePath {
   public cssPath: string;
 
   constructor() {
-    // Usa a API oficial para pegar a raiz do VS Code/Cursor
+    // Uses official API to get VS Code/Cursor root
     const appRoot = vscode.env.appRoot;
 
-    // CORREÇÃO: O ID deve ser "publisher.name".
-    // Se você não definiu publisher, o VS Code usa "undefined_publisher" por padrão.
+    // FIX: ID must be "publisher.name".
+    // If publisher is undefined, VS Code defaults to "undefined_publisher".
     const extensionId = 'tupynambalucasdev.codecanvas';
     const extension = vscode.extensions.getExtension(extensionId);
 
     this.extRoot = extension ? extension.extensionPath : '';
 
-    // Caminho para o arquivo principal do workbench
+    // Path to main workbench file
     this.workbenchPath = path.join(appRoot, 'out', 'vs', 'workbench', 'workbench.desktop.main.js');
 
-    // Se o arquivo não existir no caminho acima (comum no Cursor/Windows), tenta o caminho alternativo
+    // If file doesn't exist at path above (common in Cursor/Windows), try alternative path
     if (!fs.existsSync(this.workbenchPath)) {
       this.workbenchPath = path.join(appRoot, 'vs', 'workbench', 'workbench.desktop.main.js');
     }

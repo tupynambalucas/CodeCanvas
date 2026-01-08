@@ -30,11 +30,11 @@ export async function detectAndApplyThemeBackground() {
 
     if (themeJson.backgroundConfig) {
       const config = vscode.workspace.getConfiguration('codecanvas');
-      // PEGADA CORRETA: Obter o objeto 'ui' atual e atualizar apenas a parte do background
+      // Correct approach: Get current 'ui' object and update only the background section
       const ui: any = config.get('ui') || {};
       ui.background = themeJson.backgroundConfig;
 
-      // Salvar o objeto 'ui' completo
+      // Save the complete 'ui' object
       await config.update('ui', ui, vscode.ConfigurationTarget.Global);
       vscode.window.showInformationMessage(
         `CodeCanvas: Applied background settings from theme "${currentTheme}".`,

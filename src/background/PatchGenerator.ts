@@ -40,7 +40,7 @@ export class FullscreenPatchGeneratorConfig {
 export class SidebarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 export class AuxiliarybarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 export class PanelPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
-// Nova configuração para Secondary Bar
+// New configuration for Secondary Bar
 export class SecondarybarPatchGeneratorConfig extends FullscreenPatchGeneratorConfig {}
 
 export type TPatchGeneratorConfig = {
@@ -50,7 +50,7 @@ export type TPatchGeneratorConfig = {
     editor?: EditorPatchGeneratorConfig;
     sidebar?: SidebarPatchGeneratorConfig;
     auxiliarybar?: AuxiliarybarPatchGeneratorConfig;
-    secondarybar?: SecondarybarPatchGeneratorConfig; // Adicionado suporte aqui
+    secondarybar?: SecondarybarPatchGeneratorConfig; // Added support here
     panel?: PanelPatchGeneratorConfig;
     fullscreen?: FullscreenPatchGeneratorConfig;
   };
@@ -234,7 +234,7 @@ export class EditorPatchGenerator extends AbsPatchGenerator<EditorPatchGenerator
     legacy: LegacyEditorPatchGeneratorConfig,
     config: EditorPatchGeneratorConfig,
   ): EditorPatchGeneratorConfig {
-    // Adicionado ?. antes de .length para segurança
+    // Added optional chaining ?. before .length for safety
     if (!legacy?.customImages?.length || config?.images?.length) {
       return config;
     }
@@ -423,7 +423,7 @@ export class SidebarPatchGenerator extends FullscreenPatchGenerator<SidebarPatch
   }
 }
 
-// IMPLEMENTAÇÃO: Secondary Sidebar (Barra Lateral Direita)
+// Implementation: Secondary Sidebar
 export class SecondarybarPatchGenerator extends FullscreenPatchGenerator<SecondarybarPatchGeneratorConfig> {
   protected cssvariable = '--background-secondarybar-img';
   protected getStyle(): string {
@@ -521,7 +521,7 @@ export class PatchGenerator {
         scriptParts.push(new SidebarPatchGenerator(options.background.sidebar).create());
       }
       if (options.background?.secondarybar) {
-        // CHAMADA: Nova Barra Lateral Direita
+        // Call: New Secondary Sidebar
         scriptParts.push(new SecondarybarPatchGenerator(options.background.secondarybar).create());
       }
       if (options.background?.auxiliarybar) {

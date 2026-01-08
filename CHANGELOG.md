@@ -7,6 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [1.0.0] - 2026-01-08
 
 ### Added
+
 - **Unified Background System**: Centralized configuration under `codecanvas.ui` for a streamlined user experience.
 - **Fullscreen Mode**: Apply a single global background to the entire VS Code window.
 - **Sectioned Mode**: Configure different backgrounds for `editor`, `sidebar`, `panel`, and the newly added `secondaryView`.
@@ -20,11 +21,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - **Secondary View Support**: Added background support for the secondary side bar (`secondaryView`).
 
 ### Changed
-- **Architecture Rework**: Major refactoring from the original `vscode-background` logic into a more robust, testable, and maintainable architecture.
+
 - **Patching Mechanism**: Improved the file patching logic to be more reliable and to handle administrator permissions gracefully using `sudo-prompt`.
 - **Configuration**: Migrated from multiple individual settings to a single `codecanvas.ui` object for all UI-related configurations.
 
 ### Fixed
+
 - **Checksum Warning**: Implemented a patch to hide the "Your Code installation appears to be corrupt" warning that appears after modifying the workbench file.
 - **Path Handling**: Improved logic for resolving VS Code's internal file paths across different platforms and versions (including Cursor).
 

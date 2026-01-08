@@ -27,7 +27,7 @@ function getFiles(dir, extension) {
 function updateContributions() {
   const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
 
-  // Extrai o publisher e o nome da extensão para compor o ID final
+  // Extracts publisher and extension name to compose final ID
   const publisher = packageJson.publisher; // "tupynambalucasdev"
   const extensionName = packageJson.name; // "codecanvas"
 
@@ -47,11 +47,11 @@ function updateContributions() {
 
     const relativePath = path.relative(rootPath, file).replace(/\\/g, '/');
 
-    // Obtém o ID do arquivo (ex: "dark-purple") ou gera um a partir do nome se não existir
+    // Gets file ID (e.g. "dark-purple") or generates one from name if missing
     const themeSlug = theme.id || theme.name.toLowerCase().replace(/\s+/g, '-');
 
-    // NOVO: Constrói o ID no formato "publisher.extensao-id"
-    // Exemplo: "tupynambalucasdev.codecanvas-dark-purple"
+    // NEW: Constructs ID in "publisher.extension-id" format
+    // Example: "tupynambalucasdev.codecanvas-dark-purple"
     const fullThemeId = `${publisher}.${extensionName}-${themeSlug}`;
 
     const contribution = {
