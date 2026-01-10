@@ -10,31 +10,6 @@
     },
     {
       "type": "npm",
-      "script": "themes:build",
-      "label": "npm: themes:build",
-      "detail": "Compila os temas do workspace usando Tailwind",
-      "group": "build",
-      "problemMatcher": []
-    },
-    {
-      "type": "npm",
-      "script": "themes:dev",
-      "label": "npm: themes:dev",
-      "isBackground": true,
-      "detail": "Monitoriza alterações nos temas (Tailwind)",
-      "problemMatcher": {
-        "pattern": {
-          "regexp": "."
-        },
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^.*$",
-          "endsPattern": "^.*$"
-        }
-      }
-    },
-    {
-      "type": "npm",
       "script": "compile",
       "label": "npm: compile",
       "group": {
@@ -42,65 +17,7 @@
         "isDefault": true
       },
       "detail": "Executa o build completo (Temas + Extensão)",
-      "dependsOn": ["npm: clean", "npm: themes:build"],
-      "dependsOrder": "sequence",
       "problemMatcher": ["$tsc"]
-    },
-    {
-      "label": "watch",
-      "dependsOn": ["npm: clean", "npm: themes:dev", "npm: watch:tsc", "npm: watch:esbuild"],
-      "dependsOrder": "sequence",
-      "presentation": {
-        "reveal": "never"
-      },
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      }
-    },
-    {
-      "type": "npm",
-      "script": "watch:esbuild",
-      "group": "build",
-      "isBackground": true,
-      "label": "npm: watch:esbuild",
-      "presentation": {
-        "group": "watch",
-        "reveal": "never"
-      },
-      "problemMatcher": {
-        "owner": "esbuild",
-        "fileLocation": ["relative", "${workspaceFolder}"],
-        "pattern": [
-          {
-            "regexp": "^✘ \\\\[ERROR\\\\] (.*)$",
-            "message": 1
-          },
-          {
-            "regexp": "^\\\\s*(.*?):(\\\\d+):(\\\\d+):$",
-            "file": 1,
-            "line": 2,
-            "column": 3
-          }
-        ],
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "^\\[watch\\] build started",
-          "endsPattern": "^\\[watch\\] build finished"
-        }
-      }
-    },
-    {
-      "type": "npm",
-      "script": "watch:tsc",
-      "group": "build",
-      "problemMatcher": "$tsc-watch",
-      "isBackground": true,
-      "label": "npm: watch:tsc",
-      "presentation": {
-        "group": "watch",
-        "reveal": "never"
-      }
     }
   ]
 }

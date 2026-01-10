@@ -1,3 +1,5 @@
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+  
 # CodeCanvas — Dynamic Backgrounds and Themes for VS Code
 
 ![Logo](images/logo.png)
@@ -146,8 +148,8 @@ npm run compile
 - ✅ Automatic theme integration via `backgroundConfig`
 - ✅ Safe patching with `Install` and `Uninstall` commands
 - ✅ Support for `secondarybar` (Secondary View)
-- 🔄 *In Progress:* A visual management interface for easier configuration.
-- 📋 *Planned:* More pre-configured themes with built-in backgrounds.
+- 🔄 _In Progress:_ A visual management interface for easier configuration.
+- 📋 _Planned:_ More pre-configured themes with built-in backgrounds.
 
 ## 👨‍💻 Author
 
@@ -155,7 +157,8 @@ npm run compile
 
 - GitHub: [@tupynambalucas](https://github.com/tupynambalucas)
 
-
 ## 📄 License
 
 MIT License - See the [LICENSE](LICENSE) file for details.
+
+</div>

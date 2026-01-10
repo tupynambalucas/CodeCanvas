@@ -1,6 +1,5 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "Yoruichi (Bleach) - Dark Purple",
   "type": "dark",
   "colors": {
     "activityBar.background": "#ff00ff",
@@ -244,7 +243,7 @@
     "textPreformat.foreground": "#88c0d0",
     "textSeparator.foreground": "#88c0d0",
     "titleBar.activeBackground": "#141414",
-    "titleBar.activeForeground": "",
+    "titleBar.activeForeground": "#ff5effa8",
     "titleBar.border": "#e4e4e413",
     "titleBar.inactiveBackground": "#141414",
     "titleBar.inactiveForeground": "#e4e4e45e",
@@ -1825,9 +1824,10 @@
       ],
       "style": {
         "opacity": 0.2,
-        "background-position": "center",
+        "background-position": "top center",
         "background-size": "cover"
       }
     }
-  }
+  },
+  "name": "Yoruichi (Bleach) - Dark Purple"
 }
