@@ -4,4 +4,8 @@ node_modules/
 .geminiignore
 dist/
 out/
+<<<<<<< HEAD
 build/
+=======
+themes/build/
+>>>>>>> 76a44f47e581eb02f8edee347e738c801dbc492d

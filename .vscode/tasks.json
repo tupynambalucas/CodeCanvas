@@ -16,7 +16,11 @@
         "kind": "build",
         "isDefault": true
       },
+<<<<<<< HEAD
       "detail": "Full build (Temas + Extensão)",
+=======
+      "detail": "Executa o build completo (Temas + Extensão)",
+>>>>>>> 76a44f47e581eb02f8edee347e738c801dbc492d
       "problemMatcher": ["$tsc"]
     }
   ]

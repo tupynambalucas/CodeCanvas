@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+=======
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+  
+# CodeCanvas — Dynamic Backgrounds and Themes for VS Code
+>>>>>>> 76a44f47e581eb02f8edee347e738c801dbc492d
 
 ![Logo](icon.png)
 
