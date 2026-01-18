@@ -26,6 +26,7 @@
   "json.schemaDownload.enable": true,
   // ==================== Editor ====================
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.quickSuggestions": {
@@ -34,6 +35,25 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": "explicit"
     }
+  },
+  // Enable quick suggestions for markdown strings and enable html completions in markdown
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "strings": true,
+      "other": true,
+      "comments": true
+    },
+    "editor.suggest.showWords": true,
+    "editor.suggest.showSnippets": true,
+    "editor.suggest.showFiles": true,
+    "editor.suggest.showFunctions": true,
+    "editor.suggest.showKeywords": true,
+    "editor.suggest.showVariables": true,
+    "editor.suggest.showClasses": true,
+    "editor.suggest.showModules": true
+  },
+  "emmet.includeLanguages": {
+    "markdown": "html"
   },
   "[json]": {
     "editor.quickSuggestions": {
@@ -55,19 +75,22 @@
   "tailwindCSS.emmetCompletions": true,
 
   "tailwindCSS.experimental.classRegex": [
-    // Esta regex é mais simples e eficiente para valores únicos em JSON
-    ["\"([^\"]*)\"", "([^\\s\"]+)"]
+    // Regex aprimorada: foca apenas no valor após os dois pontos (": "valor")
+    ["\":\\s*\"([^\"]*)\"", "([^\\s\"]+)"]
   ],
 
   "tailwindCSS.includeLanguages": {
-    "json": "css" // Garante que o JSON seja tratado como CSS pelo Tailwind
+    "json": "html",
+    "jsonc": "html" // Adicionado para coincidir com a associação de arquivos abaixo
   },
-
-  // 2. Aponta para o ficheiro de configuração dentro da subpasta themes
-  "tailwindCSS.experimental.configFile": "themes/tailwind.config.mjs",
 
   // 3. Garante que o VS Code trate JSON como JSONC (JSON com comentários)
   "files.associations": {
     "*.json": "jsonc"
-  }
+  },
+
+  "tailwindCSS.experimental.configFile": "themes/tailwind.config.mjs",
+
+  "emmet.useInlineCompletions": true,
+  "editor.inlineCompletionsAccessibilityVerbose": true
 }

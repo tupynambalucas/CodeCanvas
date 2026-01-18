@@ -1,8 +1,16 @@
-# CodeCanvas — Dynamic Backgrounds and Themes for VS Code
+<div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 
-![Logo](images/logo.png)
+![Logo](icon.png)
 
-CodeCanvas is a Visual Studio Code extension that revolutionizes your workspace by integrating a powerful background and theming system. It allows you to add custom backgrounds to different parts of the UI, automatically integrates with your favorite themes, and provides a unified system for a truly personalized coding environment.
+# CodeCanvas
+
+🎨 Dynamic Backgrounds and Themes for VS Code
+
+> CodeCanvas is a Visual Studio Code extension that revolutionizes your workspace by integrating a powerful background and theming system. It allows you to add custom backgrounds to different parts of the UI, automatically integrates with your favorite themes, and provides a unified system for a truly personalized coding environment.
+
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: left; text-align: left; justify-content: center;">
 
 ## ✨ Features
 
@@ -146,8 +154,8 @@ npm run compile
 - ✅ Automatic theme integration via `backgroundConfig`
 - ✅ Safe patching with `Install` and `Uninstall` commands
 - ✅ Support for `secondarybar` (Secondary View)
-- 🔄 *In Progress:* A visual management interface for easier configuration.
-- 📋 *Planned:* More pre-configured themes with built-in backgrounds.
+- 🔄 _In Progress:_ A visual management interface for easier configuration.
+- 📋 _Planned:_ More pre-configured themes with built-in backgrounds.
 
 ## 👨‍💻 Author
 
@@ -155,7 +163,8 @@ npm run compile
 
 - GitHub: [@tupynambalucas](https://github.com/tupynambalucas)
 
-
 ## 📄 License
 
 MIT License - See the [LICENSE](LICENSE) file for details.
+
+</div>

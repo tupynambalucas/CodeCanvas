@@ -2,7 +2,15 @@
 
 All notable changes to the "CodeCanvas" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+
+## [Unreleased]
+
+### DOC
+
+- Improved and clarified documentation across `README.md`, `CONFIG.md`, `CONTEXT.md`, and `VSCODE_API.md` to ensure consistency and accuracy, especially regarding the `secondarybar` vs `secondaryView` naming convention.
+
+- Initial release
 
 ## [1.0.0] - 2026-01-08
 
@@ -29,11 +37,3 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - **Checksum Warning**: Implemented a patch to hide the "Your Code installation appears to be corrupt" warning that appears after modifying the workbench file.
 - **Path Handling**: Improved logic for resolving VS Code's internal file paths across different platforms and versions (including Cursor).
-
-## [Unreleased]
-
-### DOC
-
-- Improved and clarified documentation across `README.md`, `CONFIG.md`, `CONTEXT.md`, and `VSCODE_API.md` to ensure consistency and accuracy, especially regarding the `secondarybar` vs `secondaryView` naming convention.
-
-- Initial release

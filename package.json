@@ -22,6 +22,22 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+  "scripts": {
+    "themes:build": "npm run build -w themes",
+    "themes:dev": "npm run dev -w themes",
+    "clean": "node -e \"const fs = require('fs'); ['out', 'dist'].forEach(p => fs.rmSync(p, { recursive: true, force: true }))\"",
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run themes:build && npm run clean && npm run check-types && npm run lint && node esbuild.js",
+    "package": "npm run themes:build && npm run clean && npm run check-types && npm run lint && node esbuild.js --production",
+    "pretest": "npm run themes:build && npm run clean && npm run compile-tests && npm run compile && npm run lint",
+    "watch": "npm run themes:build && npm run clean && npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
   "contributes": {
     "commands": [
       {
@@ -65,22 +81,6 @@
         "path": "./src/themes/anime.bleach.yoruichi.dark-purple.json"
       }
     ]
-  },
-  "scripts": {
-    "themes:build": "npm run build -w themes",
-    "themes:dev": "npm run dev -w themes",
-    "clean": "node -e \"const fs = require('fs'); ['out', 'dist'].forEach(p => fs.rmSync(p, { recursive: true, force: true }))\"",
-    "vscode:prepublish": "npm run package",
-    "compile": "npm run themes:build && npm run clean && npm run check-types && npm run lint && node esbuild.js",
-    "package": "npm run themes:build && npm run clean && npm run check-types && npm run lint && node esbuild.js --production",
-    "pretest": "npm run themes:build && npm run clean && npm run compile-tests && npm run compile && npm run lint",
-    "watch": "npm run themes:build && npm run clean && npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
   },
   "dependencies": {
     "@vscode/sudo-prompt": "^9.3.1",
